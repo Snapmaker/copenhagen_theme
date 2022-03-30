@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.removeMask = () => mask.style.display = 'none'
     window.openMask = () => mask.style.display = 'block'
     window.announcementModal = getEl('#announcement-modal')
-    // hanldeRefatorAnnouncementModal()
+    hanldeRefatorAnnouncementModal()
     
     secondBarActive()
 
@@ -1093,6 +1093,10 @@ function handleBreadcrumbs() {
  * During the update the structure of zendesk background data, showing a modal to placate users;
  */
 function hanldeRefatorAnnouncementModal(){
+    if (!(new RegExp('/hc/zh-cn[/]*$').test(window.location.pathname))) {
+        return
+    }
+    
     const get = key => window.localStorage.getItem(key)
     const set = (key, value) => window.localStorage.setItem(key, value)
 
