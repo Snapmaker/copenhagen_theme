@@ -1100,11 +1100,11 @@ function hanldeRefatorAnnouncementModal(){
     const get = key => window.localStorage.getItem(key)
     const set = (key, value) => window.localStorage.setItem(key, value)
 
-    if(get('is_announcement_get') === 'get') {
+    if(get('is_migrate_announcement_get') === 'get') {
         return 
     }
 
-    set('is_announcement_get', 'get')
+    set('is_migrate_announcement_get', 'get')
     showAnnouncementModal()
 }
 
