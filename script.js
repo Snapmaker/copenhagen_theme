@@ -1093,7 +1093,7 @@ function handleBreadcrumbs() {
  * During the update the structure of zendesk background data, showing a modal to placate users;
  */
 function hanldeRefatorAnnouncementModal(){
-    if (!(new RegExp('/hc/zh-cn[/]*$').test(window.location.pathname))) {
+    if (!(new RegExp('/hc/zh-cn[/]*').test(window.location.pathname))) {
         return
     }
     
