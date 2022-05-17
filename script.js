@@ -1,3 +1,8 @@
+// support.snapmaker.com chinses site redirect to snapmaker org support-cn(laset version)
+if(window.location.pathname.indexOf('/hc/zh-cn') !== -1) {
+    window.location = 'https://snapmaker.cn/support-cn/home'
+}
+
 // https://github.com/jimmynotjim/scrollnav
 // Most from scrollnav@v3.0.2, with little modifications.
 const scrollnav = (function () {
