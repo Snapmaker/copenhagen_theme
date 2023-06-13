@@ -11135,8 +11135,7 @@ html[dir="rtl"] .notification-left-aligned {
 
 /***** Header *****/
 .snmk-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto",
- "Segoe UI", "Droid Sans","Helvetica Neue","Helvetica","Arial","Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei","Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Droid Sans","Helvetica Neue","Helvetica","Arial","Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei","Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -12548,60 +12547,105 @@ html[dir="rtl"] .notification-left-aligned {
 
 .services-wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
-@media (min-width: 769px) {
-  .services-wrapper {
-    padding-left: 9%;
-    padding-right: 9%;
-  }
+.services-wrapper .snmk-link-btn {
+  margin-top: 0;
 }
 
-@media (max-width: 768px) {
-  .services-wrapper {
-    flex-direction: column;
-  }
-}
-
-.service-care, .product-warranty {
-  background-color: #F5F5F5;
+.service-card {
+  background: #F5F5F5;
+  border-radius: 10.1126px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 16px;
-  width: 50%;
   text-align: center;
+  flex: 1 1 auto;
+  margin-inline: 0;
+  margin-right: 24px;
+  width: calc((100% - 24px * 3)/4);
+  margin-top: 24px;
+  align-items: center;
 }
 
-@media (max-width: 768px) {
-  .service-care, .product-warranty {
-    width: 100%;
-  }
-}
-
-.service-care img, .product-warranty img {
-  width: 146px;
-  margin-bottom: 42px;
-}
-
-.service-care a, .product-warranty a {
+.service-card a {
   color: #0C63E2;
   margin-top: 24px;
   text-decoration: none;
 }
 
+.service-card:last-child, .service-card:nth-child(4n) {
+  margin-right: 0;
+}
+
+.service-card:last-child:nth-child(4n + 1) {
+  margin-right: calc((100% - 24px * 3)/4 * 3 + 24px * 3);
+}
+
+.service-card:last-child:nth-child(4n + 2) {
+  margin-right: calc((100% - 24px * 3)/4 * 2 + 24px * 2);
+}
+
+.service-card:last-child:nth-child(4n + 3) {
+  margin-right: calc((100% - 24px * 3)/4 * 1 + 24px * 1);
+}
+
+.service-card-img {
+  line-height: 0;
+}
+
+.service-card-img img {
+  width: 100%;
+  margin-bottom: 0;
+  max-width: 225px;
+}
+
+.service-card-title {
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  letter-spacing: -0.24px;
+  color: #1F1F1F;
+}
+
+.service-card-desc {
+  margin-bottom: 24px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #5C5C5C;
+}
+
 @media (min-width: 769px) {
-  .service-care {
-    margin-right: 12px;
+  .services-wrapper {
+    padding: 0;
   }
-  .product-warranty {
-    margin-left: 12px;
+  .service-card:nth-child(1), .service-card:nth-child(2), .service-card:nth-child(3), .service-card:nth-child(4) {
+    margin-top: 0;
   }
 }
 
 @media (max-width: 768px) {
-  .product-warranty {
-    margin-top: 16px;
+  .service-card {
+    width: 100%;
+    margin-right: 0;
+  }
+  .service-card:first-child {
+    margin-top: 0;
+  }
+  .service-card-desc {
+    margin-bottom: 48px;
   }
 }
 
@@ -12702,8 +12746,16 @@ html[dir="rtl"] .notification-left-aligned {
     width: 100%;
     height: auto;
   }
+  .home-need-help-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .home-need-help-buttons .snmk-btn, .home-need-help-buttons .follow-btn button, .follow-btn .home-need-help-buttons button {
     margin-top: 8px;
+    margin-bottom: 20px;
+    width: 280px;
   }
 }
 
@@ -12714,6 +12766,22 @@ html[dir="rtl"] .notification-left-aligned {
     flex-direction: column;
     display: flex;
   }
+}
+
+.home-need-help-buttons .snmk-btn, .home-need-help-buttons .follow-btn button, .follow-btn .home-need-help-buttons button {
+  margin-top: 8px;
+}
+
+.home-need-help-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-need-help-buttons .snmk-primary-btn {
+  margin-bottom: 20px;
+  width: 280px;
 }
 
 /***** Article *****/
@@ -13271,18 +13339,4 @@ html[dir="rtl"] .notification-left-aligned {
     font-size: 12px;
     line-height: 20px;
   }
-}
-
-.home-need-help-buttons .snmk-btn {
-  margin-top: 8px;
-}
-.home-need-help-buttons { 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.home-need-help-buttons .snmk-primary-btn {
-  margin-bottom: 20px;
-  width: 280px;
 }
