@@ -452,7 +452,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // hanldeRefatorAnnouncementModal()
 
     handleBreadcrumbs();
-    const isHomePage = new RegExp('https://support.snapmaker.com/hc/(zh-cn|en-us)((/*)|#(.*))$', 'ig').test(window.location.href);
+        const isHomePage = new RegExp('https://support.snapmaker.com/hc/(zh-cn|en-us)((/*)|#(.*))$', 'ig').test(window.location.href);
 
     // entry home
     if (isHomePage) {
@@ -2267,67 +2267,35 @@ function createEl(tag, attr, ...children) {
     return el
 }
 //============================================== update Acady(category) and home page(2022.8.29~) ==============================================
-(function (window) {
-    let container, drawerAnchor, drawer, drawerCover;
 
-    let isOpen = false;
-
-    function drawerInit() {
-        if (isOpen) return;
-        container = document.querySelector(`#section-1`);
-        drawerAnchor = document.querySelector(`#drawer-anchor`);
-        drawer = document.querySelector(`#drawer`);
-        drawerCover = document.querySelector(`#drawer-cover`);
-
-        drawer.style.height = container.offsetTop + drawerAnchor.offsetTop + 'px';
-        drawerCover.style.height = drawerAnchor.offsetTop + 'px';
-        return container.offsetTop + drawerAnchor.offsetTop;
-    }
-
-    function openDrawer() {
-        if (isOpen) return;
-        drawer && (drawer.style.height = '');
-        drawerCover && (drawerCover.style.display = 'none');
-        isOpen = true;
-    }
-
-    window.drawerInit = drawerInit;
-    window.openDrawer = openDrawer;
-})(window);
 //============================================== zendesk plan shift (2023.3.8) ==============================================
 
 (function(window) {    
     async function getHomePageConfig() {
-        return homePageConfig
+        return homePageConfigv2 //homePageConfig
     }
     async function homePageRender() {
         const res = await getHomePageConfig()
-        const el = document.createElement('div')
-        el.innerHTML = renderProductions(res.productions)
+        renderProductions(res.productions)
     }
     
     function renderProductions(config) {
-        const container = getEl('#drawer')
+        console.log('config',config)
+        const container = getEl('#productions')
         return config.map((productionClass, index) => {
             const categoriesEl = categoriesElMap(productionClass, index)
+            console.log('categoriesEl',categoriesEl)
             const fragment = document.createDocumentFragment()
-            const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
+            // const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
             const content = createEl('div', {class: 'category-sections pos-relative', id: `section-${index}`}, ...categoriesEl)
-            fragment.appendChild(title)
+            // fragment.appendChild(title)
             fragment.appendChild(content)
             container.appendChild(fragment)
             return fragment
-            // return `
-            //     <div class="title-3 font-bw-1 bold mr-xs mb-xl mt-2xl" id="title-${index}">${productionClass.name}</div>
-            //     <div class="category-sections pos-relative" id="section-${index}">${categoriesEl}</div>  
-            // `
         })
-        // .join('')
-    
     }
     function categoriesElMap(productionClass, topLevelIndex) {
         const drawerAnchor = (topLevelIndex,index) => topLevelIndex===1 && index === 0 ? createEl('div', {id: "drawer-anchor"}) : document.createTextNode('')
-        // const drawerAnchor = (topLevelIndex,index) => topLevelIndex===1 && index === 0 ? `<div id="drawer-anchor"></div>` : ''
         const categories = productionClass.categories
         if(!categories) return ''
         return categories.map((category, index) => {
@@ -2336,20 +2304,11 @@ function createEl(tag, attr, ...children) {
                     createEl('img', {class: 'w-100', src: category.img, alt: category.name})
                 ),
                 createEl('div', {class: "text-center mt-xs px-l"}, 
-                    createEl('span', {class: "snmk-link-btn"}, document.createTextNode(category.name))
+                    createEl('span', {class: "font-bw-1 bold title-1 snmk-link-btn"}, document.createTextNode(category.name))
                 ),
                 drawerAnchor(topLevelIndex, index),
             )
         })
-        // return categories.map((category, index) => {
-        //     return `
-        //         <a class="product-img font-bw-8 mr-l mt-l" href="${category.url}">
-        //             <div class="img"><img class="w-100" src="${category.img}" alt="${category.name}"></div>
-        //             <div class="text-center mt-xs"><span class="snmk-link-btn">${name}</span></div>
-        //             ${drawerAnchor(topLevelIndex, index)}
-        //         </a>
-        //     `
-        // }).join('')
     }
 
     window.getHomePageConfig = getHomePageConfig
@@ -2400,3 +2359,53 @@ async function handleCuraPlugin(id, locale) {
     templateData.download_link = curaPlugins.assets[0].browser_download_url
     return handleDownloadFile(templateData)
   }
+
+window.addEventListener('DOMContentLoaded', function() {
+    const renderSwiper = function() {
+        if (!window.Swiper) return;
+        const el = document.querySelector('#hp-swiper');
+
+        // 如果容器不存在，清理可能残留的实例
+        if (!el) {
+            if (window.hpSwiper && typeof window.hpSwiper.destroy === 'function') {
+                try { window.hpSwiper.destroy(true, true); } catch (e) {}
+            }
+            window.hpSwiper = null;
+            return;
+        }
+
+        const shouldEnable = window.innerWidth > 768;
+        const instance = el.swiper || window.hpSwiper;
+
+        if (shouldEnable) {
+            // 已存在实例时，仅更新而不重复初始化
+            if (instance) {
+                try { instance.update(); } catch (e) {}
+                return;
+            }
+            // 初始化实例
+            window.hpSwiper = new Swiper('#hp-swiper', {
+                // loop: true,
+                // centeredSlides: true,
+                cursor: 'grab',
+                slidesPerView: 1,
+                spaceBetween: 16,
+                // autoplay: { delay: 5000, disableOnInteraction: false },
+                // pagination: { el: '#hp-swiper .swiper-pagination', clickable: true },
+                // navigation: { nextEl: '#hp-swiper .swiper-button-next', prevEl: '#hp-swiper .swiper-button-prev' },
+                breakpoints: { 768: { slidesPerView: 2.7 } }
+            });
+        } else {
+            // 小屏关闭：销毁已存在实例
+            if (instance && typeof instance.destroy === 'function') {
+                try { instance.destroy(true, true); } catch (e) {}
+            }
+            window.hpSwiper = null;
+        }
+    };
+
+    // 首次渲染
+    renderSwiper();
+    // resize 时节流更新，避免高频重复初始化
+    window.addEventListener('resize', throttle(renderSwiper, 200));
+})

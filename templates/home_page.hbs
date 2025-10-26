@@ -1,9 +1,6 @@
 
 {{#isnt help_center.locale 'zh-cn'}}
     <style>
-        main {
-            background-color: #F5F5F5;
-        }
         .header > .logo .logo-image {
             background-image: url({{asset 'pic_nav_logo_white_236x34.png' }});
         }
@@ -39,27 +36,13 @@
         })
     </script>
 
-    <section id="main-content" class="section hero home-search-container pos-relative">
-        <div class="search-text-container snmk-container" style="position: static;transform: unset;">
+    <section id="main-content" class="home-banner-container pos-relative text-center">
+        <div class="snmk-container">
             <div class="snmk-col-6 snmk-col-l-6 snmk-col-m-6 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-3 snmk-col-l-offset-3 snmk-col-m-offset-1"> 
-            <div class="big-title-2 bold" style="color: #F5F5F5;font-family: inherit">
-                <span>{{dc 'home_search_title'}}</span>
-            </div>
-            <div class="hero-inner">
-                <span class="iconfont font-bw-1 search-icon">&#xe61d;</span>
-                    {{#is help_center.locale 'zh-cn'}}
-                    {{search placeholder="您需要什么帮助？" submit=false instant=settings.instant_search class='search search-full'}}
-                    {{/is}}
-                    {{#isnt help_center.locale 'zh-cn'}}
-                        {{search placeholder="How can we help you?" submit=false instant=settings.instant_search class='search search-full'}}
-                    {{/isnt}}
-            </div>
-            <div class="quick-links mt-l font-1">
-                {{dc 'home_search_quick_links'}}
-            </div>
+                <div class="font-bw-1 bold hb-title">Snapmaker Support</div>
+                <div class="mt-m font-bw-2 hb-desc">Guides, troubleshooting, and support for your Snapmaker machines.</div>
             </div>
         </div>
-        <div id="product-support" class="pos-absolute" style="bottom: 100px;"></div>
     </section>
 
     <h2 class="section-title title-1 font-bw-1 bold mt-3xl mb-xl">
@@ -71,184 +54,129 @@
         {{/isnt}}
     </h2>
     <div class="snmk-container pos-relative" >
-        <div id="drawer" class="snmk-col-10 snmk-col-l-10 snmk-col-offset-1 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-l-offset-1 product-category">
-            {{!-- {{#each categories}}
-                {{#is description  'Products'}}
-                <div class="title-3 font-bw-1 bold mr-xs mb-xl mt-2xl" id="title-{{@index}}">{{name}}</div>
-                    <div class="category-sections pos-relative" id="section-{{@index}}">
-                    {{#each sections}}
-                        <a class="product-img font-bw-8 mr-l mt-l" href="{{url}}">
-                            <div class="img"><img class="w-100" src="{{description}}" alt="{{name}}"></div>
-                            <div class="text-center mt-xs"><span class="snmk-link-btn">{{name}}</span></div>
-                            {{#is @../index 1}}
-                                {{#is @index 0}}
-                                    <div id="drawer-anchor"></div>
-                                {{/is}}
-                            {{/is}}
-                        </a>
-                    {{/each}}
-                    </div>      
-                {{/is}}
-            {{/each}} --}}
-        </div>
-        <div class="drawer-cover" id="drawer-cover" onclick="onOpenDrawer()">
-            <div class="snmk-btn text-center">See All</div>
+        <div id="productions" class="snmk-col-s-4 snmk-col-xs-4 snmk-col-l-offset-1 product-category">
         </div>
     </div>
 
-    <div class="mt-3xl pt-2xl bg-white pos-relative" style="padding-bottom: 11.66vw">
-        <div id="product-wiki" class="pos-relative" style="top: -180px;"></div>
-        <h2 class="section-title title-1 font-bw-1 bold mb-xl"> 
-            {{#is help_center.locale 'zh-cn'}}
-                产品知识库
-            {{/is}}
-            {{#isnt help_center.locale 'zh-cn'}}
-                Snapmaker Wiki
-            {{/isnt}}
-        </h2>
-        <div class="snmk-container">
-            <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 ">
-                <a href="https://wiki.snapmaker.com/" class="software-category">
-                    <div class="software-text-container my-l">
-                        <h3 class="title-2 margin-block-unset">For Artisan and J1</h3>
-                        <p class="font-1 mt-l mb-xl">A centralized documentation repository that includes manuals, maintenance, troubleshooting, and FAQ.</p>
-                        <button class="snmk-primary-btn text-center">Learn More</button >
-                    </div>
-                    <img src="https://s3.us-west-2.amazonaws.com/snapmaker.com/img/support/homepage/home-wiki.png">
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="py-3xl bg-white pos-relative" id="software-container">
-        <div id="software-support" class="pos-relative" style="top: -180px;"></div>
-        <h2 class="section-title title-1 font-bw-1 bold mb-xl"> 
-            {{#is help_center.locale 'zh-cn'}}
-                软件支持
-            {{/is}}
-            {{#isnt help_center.locale 'zh-cn'}}
-                Software Support
-            {{/isnt}}
-        </h2>
-        <div class="snmk-container">
-            <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 ">
-                <a href="https://support.snapmaker.com/hc/en-us/categories/12963904565271" class="software-category">
-                    <div class="software-text-container my-l">
-                        <h3 class="title-2 margin-block-unset">Snapmaker Luban</h3>
-                        <p class="font-1 mt-l mb-xl">Open source slicing software, empowering you to 3D print, laser engrave and cut, and CNC carve.</p>
-                    <button class="snmk-primary-btn text-center">Learn More</button >
-                    </div>
-                    <img class="" src="https://s3-us-west-2.amazonaws.com/snapmaker.com/download/support-resource/home/pic_snapmaker Luban.png">
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <section class="section-academy pos-relative">
-        <div id="academy" class="pos-relative" style="top: -180px;"></div>
-        <div class="snmk-container">
-            <div class="snmk-col-3 snmk-col-l-3 snmk-col-m-4 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-8 snmk-col-l-offset-8 snmk-col-m-offset-4 ">
-                <h3 class="title-1 margin-block-unset">Academy</h3>
-                <p class="font-1 mt-s mb-xl">From theoretical knowledge to high-level tips and tricks on using your Snapmaker, here is everything you need on your way to mastery of creating.</p>
-                <a href="https://support.snapmaker.com/hc/en-us/categories/360003536313-Snapmaker-Academy" class="snmk-primary-btn text-center">Learn More</a>
-            </div>
-        </div>
-    </section>
-        
-    <section class="section-services mt-xl py-3xl pos-relative">
-        <div id="service" class="pos-relative" style="top: -180px;"></div>
-        <div class="snmk-container">
-            <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1">
-                <h2 class="section-title title-1 font-bw-1 bold mb-xl"> 
-                    Service Request and Inquiry
-                </h2>
-        <div class="services-wrapper">
-            <div class="service-card px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'product-inquiry.png' }}" alt="Snapmaker Care"></div>
-                <div class="service-card-title">Frequently Asked Questions</div>
-                <div class="service-card-desc">Get quick answers to common questions about our products and services.</div>
-                <div class="service-card-link">
-                    <a href="https://support.snapmaker.com/hc/en-us/sections/4420716996119-Pre-sales" target='_blank' class="snmk-link-btn">Learn More</a>
+    <section class="mt-3xl bg-white pos-relative contact-support">
+        <h2 class="h2-title">Contact Support</h2>
+        <div class="cs-blocks-container">
+            <div class="cs-block">
+                <div><img src="{{asset 'gi.svg' }}" alt="General Inquiry"></div>
+                <div class="cs-text-container">
+                    <h3 class="cs-title">General Inquiry</h3>
+                    <div class="cs-desc">For pre-sales or order issues, feedback, or other non-technical matters about all Snapmaker machines.</div>
                 </div>
             </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'promotion-new.png' }}" alt="Product Warranty"></div>
-                <div class="service-card-title">Pre/In Sales Inquiry</div>
-                <div class="service-card-desc">Find the info you need before or during your purchase.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/24280392463255-Frequently-Asked-Questions" class="snmk-link-btn">Learn More</a>
+            <div class="cs-block">
+                <div><img src="{{asset 'ts1.svg' }}" alt="Technical Support"></div>
+                <div class="cs-text-container">
+                    <h3 class="cs-title">Technical Support</h3>
+                    <div class="cs-desc">For Hardware/Software/Firmware issues related to Snapmaker U1.</div>
                 </div>
             </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'cooperation.png' }}" alt="Shipping and Delivery"></div>
-                <div class="service-card-title">Product Inquiry</div>
-                <div class="service-card-desc">Learn more about our product features and details.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/14931423075223-Product-Inquiry" class="snmk-link-btn">Learn More</a>
+            <div class="cs-block">
+                <div><img src="{{asset 'ts2.svg' }}" alt="Technical Support"></div>
+                <div class="cs-text-container">
+                    <h3 class="cs-title">Technical Support</h3>
+                    <div class="cs-desc">For technical issues related to other Snapmaker machines (Artisan, 2.0, J1s, J1, Ray, or Original).</div>
                 </div>
-            </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'logistics-service.png' }}" alt="Payment"></div>
-                <div class="service-card-title">Shipping & Delivery</div>
-                <div class="service-card-desc">Check out our shipping options and delivery times.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/14929045097111-Shipping-Delivery" class="snmk-link-btn">Learn More</a>
-                </div>
-            </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'payment-new.png' }}" alt="Logistics Service"></div>
-                <div class="service-card-title">Payment Policy</div>
-                <div class="service-card-desc">Review our payment methods, billing procedures, and secure transaction policies.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/14930037222295-Payment" class="snmk-link-btn">Learn More</a>
-                </div>
-            </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'shipping-and-delivery.png' }}" alt="Promotion"></div>
-                <div class="service-card-title">Refund Policy</div>
-                <div class="service-card-desc">Learn about our refund process and conditions.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/360054262534-Snapmaker-s-Warranty-Refund-Repair-Policy" class="snmk-link-btn">Learn More</a>
-                </div>
-            </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'Product-warranty.png' }}" alt="Product Inquiry"></div>
-                <div class="service-card-title">Warranty Policy</div>
-                <div class="service-card-desc">Understand the coverage and terms of our warranty.</div>
-                <div class='service-card-link'>
-                    <a href="https://support.snapmaker.com/hc/en-us/articles/360054262534-Snapmaker-s-Warranty-Refund-Repair-Policy#h_01JKW3HF0TGCSERWTJV3ER95QV" class="snmk-link-btn">Learn More</a>
-                </div>
-            </div>
-            <div class="service-card  px-xl py-l">
-                <div class='service-card-img'><img src="{{asset 'care.png' }}" alt="Cooperation"></div>
-                <div class="service-card-title">Snapmaker Care</div>
-                <div class="service-card-desc">Explore our premium support and extended warranty options.</div>
-                <div class='service-card-link'>
-                    <a href="https://www.snapmaker.com/support/snapmaker-care/" class="snmk-link-btn">Learn More</a>
-                </div>
-            </div>
-        </div>
             </div>
         </div>
     </section>
 
-
-    <div class="py-3xl snmk-container pos-relative">
-        <div id="still-need-help" class="pos-relative" style="top: -180px;"></div>
-        <div class="snmk-col-12 snmk-col-l-12 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 text-center">
-            <span class="font-bw-1 title-2 bold">{{dc 'home_need_help'}}</span>
-            <p class="font-bw-2 font-1 mt-m mb-xl">{{dc 'home_need_help_desc'}}</p>
-            <div class="home-need-help-buttons">
-                <a class="snmk-primary-btn" target="_blank" href="https://snapmaker.formcrafts.com/shipping-issues" style="text-decoration: none;">Order/Shipping Issues</a>
-                <a class="snmk-primary-btn" target="_blank" href="https://snapmaker.formcrafts.com/return-refund" style="text-decoration: none;">Return/Refund Request</a>
-                <a class="snmk-primary-btn" target="_blank" href="https://snapmaker.formcrafts.com/support-ticket" style="text-decoration: none;">Troubleshooting Request</a>
-
-              	{{!-- <a class="snmk-primary-btn" target="_blank" href="https://snapmaker.formcrafts.com/support-ticket" style="text-decoration: none;">{{t 'submit_a_request' }}</a> --}}
-                {{!-- <button class="snmk-primary-btn" onclick="zE(function() { zE.activate() });">{{t 'submit_a_request' }}</button> --}}
-                {{!-- <a class="snmk-btn" href="https://forum.snapmaker.com/">Visit the forum</a> --}}
+    <section class="mt-3xl bg-white pos-relative services">
+        <div class="services-wrapper" style="">
+            <div id="hp-swiper" class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide s-slide">
+                        <img class="s-img" src="{{asset 'refund-policy.svg'}}" alt="Refund Policy">
+                        <h3 class="s-title">Refund Policy</h3>
+                        <div class="s-desc">Learn about our refund process and conditions.</div>
+                        <a class="s-link" href="https://www.snapmaker.com/en-US/refund-policy">Learn More</a>
+                    </div>
+                    <div class="swiper-slide s-slide">
+                        <img class="s-img" src="{{asset 'warranty-policy.svg'}}" alt="Warranty Policy">
+                        <h3 class="s-title">Warranty Policy</h3>
+                        <div class="s-desc">Understand the coverage and terms of our warranty.</div>
+                        <a class="s-link" href="https://www.snapmaker.com/en-US/warranty-policy">Learn More</a>
+                    </div>
+                    <div class="swiper-slide s-slide">
+                        <img class="s-img" src="{{asset 'care-service.svg'}}" alt="Care Service">
+                        <h3 class="s-title">Care Service</h3>
+                        <div class="s-desc">Explore our extended warranty options for complete peace of mind.</div>
+                        <a class="s-link" href="https://www.snapmaker.com/en-US/shipping-policy">Learn More</a>
+                    </div>
+                </div>
+                {{!-- <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div> --}}
             </div>
-        </div>    
-    </div>
+        </div>
+    </section>
+
+    <section class="mt-3xl bg-white pos-relative rights">
+        <h2 class="h2-title">Which Snapmaker is Right for You?</h2>
+        <div class=" r-blocks">
+            <div class="r-block">
+                <img class="r-img" src="{{asset 'home-compare-machine.png'}}" alt="Compare Snapmaker Machines">
+                <a class="r-link" href="https://www.snapmaker.com/en-US/product-comparison">Compare Snapmaker Machines ›</a>
+            </div>
+            <div class="r-block">
+                <img class="r-img" src="{{asset 'get-help-choosing.png'}}" alt="Get Help Choosing a Snapmaker Machine">
+                <a class="r-link" href="https://www.snapmaker.com/en-US/product-comparison">Get Help Choosing a Snapmaker Machine ›</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-3xl bg-white pos-relative where-to-buy">
+        <h2 class="h2-title">Where to Buy</h2>
+        <div class="wtb-blocks">
+            <div class="wtb-block">
+                <img class="wtb-img" src="{{asset 'snapmaker-logo.svg'}}" alt="Where to Buy">
+                <div class="wtb-desc font-bw-2">SNAPMAKER ONLINE STORE</div>
+                <a class="wtb-link" style="background-image: url({{asset 'home-where-to-buy.png'}});" href="https://www.snapmaker.com/en-US/where-to-buy"></a>
+            </div>
+            <div class="wtb-block">
+                <img class="wtb-img" src="{{asset 'amazon.svg'}}" alt="Where to Buy">
+                <div class="wtb-desc font-bw-2">AMAZON</div>
+                <a class="wtb-link" style="background-image: url({{asset 'home-where-to-buy.png'}});" href="https://www.snapmaker.com/en-US/where-to-buy"></a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="mt-3xl bg-white pos-relative global-reseller-network">
+        <h2 class="h2-title">Global Reseller Network</h2>
+        <div class="g-r-wrapper">
+            <img class="g-r-img" src="{{asset 'grn-map.png'}}" alt="Global Reseller Network">
+            <img class="g-r-mob-img" src="{{asset 'grn-map-mob.png'}}" alt="Global Reseller Network">
+            <div class="g-r-desc" style="color: #3C3C3C;"> Find your local reseller </div>
+        </div>
+    </section>
+
+    <section class="my-3xl bg-white pos-relative contact-us">
+        <h2 class="h2-title">Contact Us</h2>
+        <div class="cu-blocks">
+            <div class="cu-block">
+                <div class="cu-title-container">
+                    <img class="cu-img" src="{{asset 'ai.svg'}}" alt="Where to Buy">
+                    <h3 class="cu-title">24/7 AI Agent</h3>
+                </div>
+                <div class="cu-desc font-bw-2">Our AI assistant is available 24/7 to provide accurate guidance and answer your questions.</div>
+                <a class="cu-ai-link" href="https://www.snapmaker.com/en-US/where-to-buy">Chat Now</a>
+            </div>
+            <div class="cu-block">
+                <div class="cu-title-container">
+                    <img class="cu-img" src="{{asset 'mail.svg'}}" alt="Where to Buy">
+                    <h3 class="cu-title">Email Support</h3>
+                </div>
+                <div class="cu-desc font-bw-2">For assistance, email our support team. Responses are typically provided within 1–2 business days.</div>
+                <div class="cu-email">
+                    Technical Support: <a class="cu-email-link" href="mailto:support@snapmaker.com">support@snapmaker.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
 {{/isnt}}
 {{#is help_center.locale 'zh-cn'}}
     <style> 
