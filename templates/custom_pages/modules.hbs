@@ -1,0 +1,32 @@
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        let modules
+        try {
+            modules = {{ dc 'modules' }}
+        } catch (error) {
+            console.log(error)
+        }
+
+        const renderModules = function() {
+            if(window.renderProductions) {
+                renderProductions([modules])
+                return true
+            }
+            return false
+        }
+
+        let waitRender = true
+        const intervalRef = setInterval(() => {
+            if(!waitRender) {
+                clearInterval(intervalRef)
+                return 
+            }
+           waitRender = !renderModules()
+        }, 1000)
+    });
+</script>
+
+<div class="snmk-container pos-relative" style="padding-block: 60px;">
+    <div id="productions" class="snmk-col-s-4 snmk-col-xs-4 snmk-col-l-offset-1 product-category">
+    </div>
+</div>

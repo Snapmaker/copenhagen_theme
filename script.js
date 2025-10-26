@@ -2209,8 +2209,7 @@ function createEl(tag, attr, ...children) {
             return fragment
         })
     }
-    function categoriesElMap(productionClass, topLevelIndex) {
-        const drawerAnchor = (topLevelIndex,index) => topLevelIndex===1 && index === 0 ? createEl('div', {id: "drawer-anchor"}) : document.createTextNode('')
+    function categoriesElMap(productionClass) {
         const categories = productionClass.categories
         if(!categories) return ''
         return categories.map((category, index) => {
@@ -2219,13 +2218,13 @@ function createEl(tag, attr, ...children) {
                     createEl('img', {class: 'w-100', src: category.img, alt: category.name})
                 ),
                 createEl('div', {class: "text-center mt-xs px-l"}, 
-                    createEl('span', {class: "font-bw-1 bold title-1 snmk-link-btn"}, document.createTextNode(category.name))
+                    createEl('span', {class: "font-bw-1 bold p-title snmk-link-btn"}, document.createTextNode(category.name))
                 ),
-                drawerAnchor(topLevelIndex, index),
             )
         })
     }
 
+    window.renderProductions = renderProductions
     window.getHomePageConfig = getHomePageConfig
     window.homePageRender = homePageRender
 })(window)

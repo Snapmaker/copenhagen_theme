@@ -11737,6 +11737,18 @@ html[dir="rtl"] .notification-left-aligned {
   }
 }
 
+.p-title {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+@media (max-width: 768px) {
+  .p-title {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
 /***** Footer *****/
 .footer {
   padding-top: 60px;

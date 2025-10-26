@@ -475,3 +475,14 @@ $halfWidth: $width/2;
     display: none;
   }
 }
+
+
+.p-title {
+  font-size: 28px;
+  line-height: 36px;
+
+  @include mobile {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
