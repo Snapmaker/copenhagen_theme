@@ -12060,14 +12060,6 @@ html[dir="rtl"] .notification-left-aligned {
   background-color: transparent;
 }
 
-#footer-search input::placeholder {
-  color: #c2c2c2;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.24px;
-}
-
 .footer-social-icon a {
   color: white;
   font-size: 32px;
