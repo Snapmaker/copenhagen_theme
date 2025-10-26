@@ -452,41 +452,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // hanldeRefatorAnnouncementModal()
 
     handleBreadcrumbs();
-        const isHomePage = new RegExp('https://support.snapmaker.com/hc/(zh-cn|en-us)((/*)|#(.*))$', 'ig').test(window.location.href);
-
-    // entry home
-    if (isHomePage) {
-        // home page remove footer search
-        const footerSearch = getEl('#footer-search');
-        if (footerSearch) footerSearch.style.display = 'none';
-
-        // home page add second bar
-        const secondNavBar = getEl('#second-nav-bar');
-        if (secondNavBar) secondNavBar.style.display = 'flex';
-        const headerNavBar = getEl('#header-nav-bar');
-        if (headerNavBar) headerNavBar.classList.add('has-second-bar');
-
-        // second bar interactive init
-        const initFn = () => {
-            initSecondBarActive();
-            secondBarActive();
-            drawerInit();
-        };
-        const ref = setInterval(initFn, 500);
-        setTimeout(() => {
-            clearInterval(ref);
-        }, 5000);
-        window.addEventListener('resize', throttle(initFn, 100));
-        window.addEventListener('scroll', throttle(function (e) {
-            secondBarActive();
-        }, 100));
-
-        window.onOpenDrawer = () => {
-            openDrawer();
-            initSecondBarActive();
-            secondBarActive();
-        };
-    }
 
     // Key map
     var ENTER = 13;
@@ -1021,7 +986,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Header Component: control header show or not when scroll
      */
-    const headersHeight = isHomePage ? 156 : 80;
+    const headersHeight = 80;
     const firstBarHeight = 80;
     let lastScrollPosition = 0;
 
@@ -1275,56 +1240,6 @@ function onClickMask() {
     headerController.isFirstBarActive = false;
     headerController.isSecondBarActive = false;
     removeMask();
-}
-
-/**
- * @description  header component: second bar item active or not handle
- */
-function initSecondBarActive() {
-    window.lastItem = null;
-    window.navitemId = ['product_support', 'software_support', 'bar_academy', 'bar_service', 'still_need_help'];
-    window.navItems = navitemId.map(v => document.querySelector(`#${v}`));
-    window.anchorId = ['product-support', 'software-support', 'academy', 'service', 'still-need-help'];
-    window.anchorItems = anchorId.map(v => document.querySelector(`#${v}`));
-    window.anchorScrollTop = anchorItems.map(v => v && getElDocumentTop(v));
-
-    window.subNavCurrText = document.querySelector(`#sub-nav-curr-text`);
-}
-
-function secondBarActive() {
-    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    let currIdx = 0;
-    for (let i = 0; i < navItems.length; i++) {
-        if (currentScrollPosition < (anchorScrollTop[i] - 20)) {
-            if (navItems[currIdx] === lastItem) break;
-            navItems[currIdx] && navItems[currIdx].classList.add('active-nav-item');
-            subNavCurrText.innerHTML = mobSubNavText[currIdx];
-            lastItem && lastItem.classList.remove('active-nav-item');
-            lastItem = navItems[currIdx];
-            break;
-        }
-        currIdx = i;
-    }
-    if (currIdx === (navItems.length - 1) && navItems[currIdx] !== lastItem) {
-        navItems[currIdx] && navItems[currIdx].classList.add('active-nav-item');
-        subNavCurrText.innerHTML = mobSubNavText[currIdx];
-        lastItem && lastItem.classList.remove('active-nav-item');
-        lastItem = navItems[currIdx];
-    }
-
-    // used 2022.1~2022.8.29
-    // const navHome = getEl('#nav-home')
-    // const navAcademy = getEl('#nav-academy')
-    // if (new RegExp('/hc/(en-us|zh-cn)[/]*$').test(window.location.pathname)) {
-    //     navHome.classList.add('active-nav-item')
-    //     navAcademy.classList.remove('active-nav-item')
-    //     return
-    // }
-    // if (window.location.pathname.includes('360003536313')) {
-    //     navHome.classList.remove('active-nav-item')
-    //     navAcademy.classList.add('active-nav-item')
-    //     return
-    // }
 }
 
 
