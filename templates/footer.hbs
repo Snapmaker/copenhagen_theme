@@ -23,9 +23,6 @@
           {{dc 'footer-snapmaker2'}}
         </div>
         <div class="footer-related-links-block" data-toggle="2">
-          {{dc 'footer_addons'}}
-        </div>
-        <div class="footer-related-links-block" data-toggle="3">
           {{dc 'footer_connect'}}
         </div>
         {{!-- <div class="footer-related-links-block" data-toggle="4">
@@ -34,11 +31,6 @@
         <div class="footer-related-links-block" data-toggle="5">
           {{dc 'footer_software_support'}}
         </div>
-        {{#is help_center.locale 'en-us'}}
-          <div class="footer-related-links-block" data-toggle="6">
-            {{dc 'footer_faq'}}
-          </div>
-        {{/is}}
 
         {{!-- pc --}}
         <div class='footer-related-links-left-block' >
@@ -46,22 +38,16 @@
             {{dc 'footer-snapmaker2'}}
           </div>
           <div class="footer-related-links-block-new" data-toggle="2">
-            {{dc 'footer_addons'}}
-          </div>
-          <div class="footer-related-links-block-new" data-toggle="3">
             {{dc 'footer_connect'}}
           </div>
           {{!-- <div class="footer-related-links-block" data-toggle="4">
             {{dc 'footer_snapmaker_original'}}
           </div> --}}
-          <div class="footer-related-links-block-new" data-toggle="5">
-            {{dc 'footer_software_support'}}
-          </div>
         </div>
         <div class='footer-related-links-right-block'>
         {{#is help_center.locale 'en-us'}}
-          <div class="footer-related-links-block-right-new" data-toggle="6">
-            {{dc 'footer_faq'}}
+          <div class="footer-related-links-block-new" data-toggle="3">
+            {{dc 'footer_software_support'}}
           </div>
         {{/is}}
         </div>
@@ -99,7 +85,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-l contact-way font-bw-4">
+    {{!-- <div class="mt-l contact-way font-bw-4">
       <div class="vertical-center mr-m iconfont"> &#xe77e;</div>
       <div style="flex: 1 1;">
         <div class="font-2" style="line-height: 24px" v-for="way of contactWay.ways" :key="way">
@@ -115,7 +101,7 @@
           {{dc 'footer_contact_us_phone'}}
         </div>
       </div>
-    </div>
+    </div> --}}
     <div class="footer-social-icon my-xl" style="display: flex">
         <a class="iconfont mr-m" href="https://www.facebook.com/snapmaker/" target="_blank">
         	&#xe88d;
@@ -140,7 +126,7 @@
     </div>
     <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 font-2 footer-bottom pt-l pb-xl">
       <span class="font-bw-4">
-        ©2024 Snapmaker All Rights Reserved
+        ©2025 Snapmaker All Rights Reserved
       </span>
       <div>
         {{#if alternative_locales}}
