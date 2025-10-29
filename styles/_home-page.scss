@@ -685,6 +685,9 @@ main {
       padding: 68px 30px;
       border-radius: 12px;
       height: 349px;
+      &:hover {
+        text-decoration: none;
+      }
       &:last-child {
         margin-right: 0;
       }
@@ -946,6 +949,7 @@ main {
   max-width: 1200px;
   margin-inline: auto;
   .g-r-wrapper {
+    display: flex;
     position: relative;
   }
   .g-r-img {

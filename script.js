@@ -2306,4 +2306,32 @@ window.addEventListener('DOMContentLoaded', function() {
     renderSwiper();
     // resize 时节流更新，避免高频重复初始化
     window.addEventListener('resize', throttle(renderSwiper, 200));
-})
+});
+
+(function(window) {
+    function createPostBlockHTML({link, img, title, excerpt, author, date}) {
+        return blogPostHTML = `
+            <a href="${link}" class="pa-block">
+              <div class="pa-img-wrapper"><img class="pa-img" src="${img}" alt="${title}"></div>
+              <div class="pa-text-wrapper">
+                <div class="pa-title">${title}</div>
+                <div class="pa-excerpt">${excerpt}</div>
+                <div class="pa-detail"><span class="pa-author">${author}</span> — <span class="pa-date">${date}</span></div>
+              </div>
+            </a>
+        `
+    }
+    function blogPostRender(blogPostObj) {
+        console.log(blogPostObj)
+        if(!blogPostObj) return
+        const blogPosts = document.querySelector('.production-academy')
+        console.log(blogPostObj, blogPosts, blogPostObj.blogPosts)
+        if(!blogPosts) return
+        let renderHTML = '';
+        blogPostObj.blogPosts.forEach(post => {
+            renderHTML += createPostBlockHTML(post)
+        })
+        blogPosts.innerHTML = renderHTML
+    } 
+    window.blogPostRender = blogPostRender
+})(window)

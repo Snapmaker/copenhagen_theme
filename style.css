@@ -13201,6 +13201,10 @@ main {
   height: 349px;
 }
 
+.contact-support .cs-blocks-container .cs-block:hover {
+  text-decoration: none;
+}
+
 .contact-support .cs-blocks-container .cs-block:last-child {
   margin-right: 0;
 }
@@ -13521,6 +13525,7 @@ main {
 }
 
 .global-reseller-network .g-r-wrapper {
+  display: flex;
   position: relative;
 }
 
