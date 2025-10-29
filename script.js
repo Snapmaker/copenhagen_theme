@@ -1476,7 +1476,7 @@ function handleResourceDownload(resource) {
 function handleDownloadFile(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-xl")
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     el.innerHTML = `
     <div class="resource-title-container">
       <div class="scroll-text-title resource-title">
@@ -1486,29 +1486,13 @@ function handleDownloadFile(resource) {
           <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
       </div>
     </div>
-    <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m" title="${resource.text}" target="_blank">
+    <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m bold" title="${resource.text}" target="_blank">
       <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
       <span class="iconfont">&#xe721;</span>
     </a>
     <p class="mt-s">${description}</p>
   `;
     return el
-//   `<div class="file-resource-container mr-l mt-xl">
-//       <div class="resource-title-container">
-//         <div class="scroll-text-title resource-title">
-//             <span class="title-3 bold font-bw-1 text-box" title="${resource.title}">${resource.title}</span>
-//         </div>
-//         <div class="scroll-text-time resource-time">
-//             <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
-//         </div>
-//       </div>
-//       <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m" title="${resource.text}" target="_blank">
-//         <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
-//         <span class="iconfont">&#xe721;</span>
-//       </a>
-//       <p class="mt-s">${description}</p>
-//     </div>
-//     `;
 }
 
 function handleSelectDownload(resource) {
@@ -1518,7 +1502,7 @@ function handleSelectDownload(resource) {
         dropdown += `<li><a class="py-s" href="${v.link}" title="${v.text}" target="_blank">${v.text}</a></li>`;
     });
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-xl")
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     el.innerHTML = `
       <div class="resource-title-container">
         <div class="scroll-text-title resource-title">
@@ -1529,7 +1513,7 @@ function handleSelectDownload(resource) {
         </div>
       </div>
       <div class="resource-select"  aria-expanded="false" onclick="onChangeFileSelect(this, event)">
-        <div class="file-download-btn w-100 mt-m" title="${resource.text}">
+        <div class="file-download-btn w-100 mt-m bold" title="${resource.text}">
           <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
           <span class="iconfont down">&#xe7b2;</span>
         </div>
