@@ -1467,11 +1467,11 @@ async function handleSectionResource(id, locale) {
             btn: [
                 {
                     link: 'https://apps.apple.com/app/Snapmaker/id6670739251?mt=12 ',
-                    text: "Download APP for iOS"
+                    text: "iOS"
                 },
                 {
                     link: 'https://play.google.com/store/apps/details?id=com.snapmaker.lavaapp',
-                    text: "Download APP for Android"
+                    text: "Android"
                 }
             ]
         })
