@@ -38,6 +38,7 @@
             <div id="placeholder-software"></div>
             <div id="placeholder-firmware"></div>
             <div id="placeholder-cura-plugins"></div>
+            <div id="placeholder-app"></div>
           </div>
         </div>
       </div>
@@ -48,6 +49,7 @@
   <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8  snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1">
     <div>
       {{!-- Wiki --}}
+      {{#is category.id 12963984075031}}
       <section class="category-section" aria-expanded="true">
         <div class="category-section-header " >
             <span class="category-section-title title-3">
@@ -62,7 +64,7 @@
             <img class="wiki-block-icon" src="{{asset 'gi.svg'}}" alt="FAQs" />
             <div class="wiki-block-title">FAQs</div>
           </a>  
-          <a class="wiki-block" href="#" target="_blank">
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/snapmaker_u1" target="_blank">
             <img class="wiki-block-icon" src="{{asset 'book-icon.svg'}}" alt="Manual" />
             <div class="wiki-block-title">Manual</div>
           </a>  
@@ -80,6 +82,42 @@
           </a>
         </div>
       </section>
+      {{/is}}
+
+      {{#is category.id 36087874981527}}
+      <section class="category-section" aria-expanded="true">
+        <div class="category-section-header " >
+            <span class="category-section-title title-3">
+              Wiki
+            </span>
+            <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                <span class="iconfont bold" >&#xe7b2;</span>
+            </button>
+        </div>
+        <div class="category-section-content wiki-wrapper section-title-collection" aria-expanded="true">
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/FAQ/u1" src="{{asset 'book-icon.svg'}}" target="_blank">
+            <img class="wiki-block-icon" src="{{asset 'gi.svg'}}" alt="FAQs" />
+            <div class="wiki-block-title">FAQs</div>
+          </a>  
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/snapmaker_u1" target="_blank">
+            <img class="wiki-block-icon" src="{{asset 'book-icon.svg'}}" alt="Manual" />
+            <div class="wiki-block-title">Manual</div>
+          </a>  
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/snapmaker_u1#maintenance" target="_blank">
+            <img class="wiki-block-icon" src="{{asset 'maintenance.svg'}}" alt="Maintenance" />
+            <div class="wiki-block-title">Maintenance</div>
+          </a>  
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/snapmaker_u1#troubleshooting" target="_blank">
+            <img class="wiki-block-icon" src="{{asset 'ts1.svg'}}" alt="Troubleshooting" />
+            <div class="wiki-block-title">Troubleshooting</div>
+          </a>  
+          <a class="wiki-block" href="https://wiki.snapmaker.com/en/snapmaker_u1#replacement-guide" target="_blank">
+            <img class="wiki-block-icon" src="{{asset 'compass.svg'}}" alt="Replacement Guides" />
+            <div class="wiki-block-title">Replacement Guides</div>
+          </a>
+        </div>
+      </section>
+      {{/is}}
 
       {{!-- Video-Type --}}
       <div class="category-section" video-type aria-expanded="true"
@@ -97,7 +135,7 @@
         {{#each category.sections}}
           {{#is description 'Video-Type' }}
             <div class="section-title-collection mb-3xl" is-video-type-exist>
-              <div class="title-4 bold font-bw-1 mt-xl mb-l" >{{name}}</div>
+              <div class="title-3 bold font-bw-1 mt-xl mb-l" >{{name}}</div>
               <ul class="video-list">
                   {{#each articles}}
                       <li class="video-list-item mt-xl">
@@ -120,29 +158,51 @@
         {{/each}}
       </div>
 
-      
-
       {{!-- Software Support --}}
-      <section class="category-section" aria-expanded="true">
-        <div class="category-section-header " >
-            <span class="category-section-title title-3">
-              Software Support
-            </span>
-            <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
-                <span class="iconfont bold" >&#xe7b2;</span>
-            </button>
-        </div>
-        <div class="section-title-collection software-wiki mb-2xl py-xl">
-          <div class="sw-text-container my-l">
-              <p class="sw-desc">Manuals and troubleshooting guides for Snapmaker Orca and APP.</p>
-              <div class="sw-btn-container">
-                <a href="https://wiki.snapmaker.com/en/Snapmaker_Orca" class="snmk-primary-btn text-center">Snapmaker Orca</a >
-                <a href="#" class="snmk-primary-btn text-center">Snapmaker APP</a >
-              </div>
-          </div>
-          <img src="{{asset 'software-wiki.png' }}">
-        </div>
-      </section>
+      {{#is category.id 12963984075031}}
+        <section class="category-section" aria-expanded="true">
+            <div class="category-section-header " >
+                <span class="category-section-title title-3">
+                Software Support
+                </span>
+                <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                    <span class="iconfont bold" >&#xe7b2;</span>
+                </button>
+            </div>
+            <div class="section-title-collection software-wiki mb-2xl py-xl">
+            <div class="sw-text-container my-l">
+                <p class="sw-desc">Manuals and troubleshooting guides for Snapmaker Orca and APP.</p>
+                <div class="sw-btn-container">
+                    <a href="https://wiki.snapmaker.com/en/Snapmaker_Orca" class="snmk-primary-btn text-center">Snapmaker Orca</a >
+                    <a href="https://wiki.snapmaker.com/en/snapmaker_app" class="snmk-primary-btn text-center">Snapmaker APP</a >
+                </div>
+            </div>
+            <img src="{{asset 'software-wiki.png' }}">
+            </div>
+        </section>
+      {{/is}}
+      {{#is category.id 36087874981527}}
+        <section class="category-section" aria-expanded="true">
+            <div class="category-section-header " >
+                <span class="category-section-title title-3">
+                Software Support
+                </span>
+                <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                    <span class="iconfont bold" >&#xe7b2;</span>
+                </button>
+            </div>
+            <div class="section-title-collection software-wiki mb-2xl py-xl">
+            <div class="sw-text-container my-l">
+                <p class="sw-desc">Manuals and troubleshooting guides for Snapmaker Orca and APP.</p>
+                <div class="sw-btn-container">
+                    <a href="https://wiki.snapmaker.com/en/Snapmaker_Orca" class="snmk-primary-btn text-center">Snapmaker Orca</a >
+                    <a href="https://wiki.snapmaker.com/en/snapmaker_app" class="snmk-primary-btn text-center">Snapmaker APP</a >
+                </div>
+            </div>
+            <img src="{{asset 'software-wiki.png' }}">
+            </div>
+        </section>
+      {{/is}}
 
       {{!-- Academy --}}
       {{#is category.id 12963984075031}}
@@ -166,6 +226,229 @@
           </div>
         </section>
       {{/is}}
+
+      
+      {{!-- wiki --}}
+      {{#is category.id 12963989552151}}
+        <a href="https://wiki.snapmaker.com/en/snapmaker_j1" class="software-category mb-2xl" id="j1-wiki">
+          <div class="software-text-container my-l">
+              <h3 class="title-2 margin-block-unset">J1 Wiki</h3>
+              <p class="font-1 mt-l mb-xl">Manuals, maintenance, troubleshooting, and FAQ.</p>
+              <button class="snmk-primary-btn text-center">Learn More</button >
+          </div>
+          <img src="{{asset 'j1-wiki.png' }}">
+        </a>
+      {{/is}}
+      {{#is category.id 16225557053591}}
+        <a href="https://wiki.snapmaker.com/en/Snapmaker_2" class="software-category mb-2xl" id="quick-swap-wiki">
+          <div class="software-text-container my-l">
+              <h3 class="title-2 margin-block-unset">2.0 A/AT/F Models Wiki</h3>
+              <p class="font-1 mt-l mb-xl">Manuals, maintenance and troubleshooting.</p>
+              <button class="snmk-primary-btn text-center">Learn More</button >
+          </div>
+          <img src="{{asset 'quick-swap-wiki.png' }}">
+        </a>
+      {{/is}}
+      {{#is category.id 17843268157463}}
+        <a href="https://wiki.snapmaker.com/en/snapmaker_ray" class="software-category mb-2xl" id="ray-wiki">
+          <div class="software-text-container my-l">
+              <h3 class="title-2 margin-block-unset">Wiki</h3>
+              <p class="font-1 mt-l mb-xl">Manuals, maintenance and troubleshooting.</p>
+              <button class="snmk-primary-btn text-center">Learn More</button >
+          </div>
+          <img src="{{asset 'wiki.png' }}">
+        </a>
+      {{/is}}
+      {{#is category.id 17843295597975}}
+        <a href="https://wiki.snapmaker.com" class="software-category mb-2xl" id="ray-wiki">
+          <div class="software-text-container my-l">
+              <h3 class="title-2 margin-block-unset">Wiki</h3>
+              <p class="font-1 mt-l mb-xl">Manuals, maintenance and troubleshooting.</p>
+              <button class="snmk-primary-btn text-center">Learn More</button >
+          </div>
+          <img src="{{asset 'wiki.png' }}">
+        </a>
+      {{/is}}
+      {{#is category.id 12963904565271}}
+        <div class="software-category mb-2xl" id="software-wiki">
+          <div class="software-text-container my-l">
+              <h3 class="title-2 margin-block-unset">Wiki</h3>
+              <p class="font-1 mt-l mb-xl">Manuals and troubleshooting guides for Snapmaker Luban and third-party software like Cura, Orca Slicer, PrusaSlicer, LightBurn, and Fusion 360.</p>
+              <div style="width: 430px;display: flex;">
+              <a href="https://wiki.snapmaker.com/en/Snapmaker_Luban" class="w-100 mt-m" style="margin-right: 2px;"><button class="snmk-primary-btn text-center">Snapmaker Luban</button ></a>
+              <a href="https://wiki.snapmaker.com/en/third_party_software" class="w-100 mt-m" ><button class="snmk-primary-btn text-center">Third Party Software</button ></a>
+              </div>
+          </div>
+          <img src="{{asset 'wiki.png' }}">
+        </div>
+      {{/is}}
+
+      {{!-- Manual-Type --}}
+      <div class="category-section" manual-type aria-expanded="true"
+          {{#each (slice (filter category.sections on="description" equals="Manual-Type") 0 1)}} style="margin-bottom: 2px"{{/each}}>
+        {{#each (slice (filter category.sections on="description" equals="Manual-Type") 0 1)}}
+          <div class="category-section-header">
+              <span class="category-section-title title-3">
+                {{dc 'section_manual_subsection_title'}}
+              </span>
+              <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                  <span class="iconfont bold" >&#xe7b2;</span>
+              </button>
+          </div>
+        {{/each}}
+        <div class="subsections-list manual-article section-title-collection
+          {{#each (slice (filter category.sections on="description" equals="Manual-Type") 0 1)}} mt-xl  mb-3xl{{/each}}">
+          {{#each category.sections}}
+            {{#is description 'Manual-Type' }}
+              <div class="subsections-container mt-2xl" is-manual-type-exist>
+                <div class="font-bw-1 title-4 bold">{{name}}</div>
+                <ul class="article-list" id="um-{{id}}">
+                  {{#each (slice articles 0 article_count)}}
+                      <li class="article-list-item">
+                          <div class="article-item">
+                              <a href="{{url}}" class="article-list-link">
+                                  <span class="book-icon font-bw-2 mr-m"></span>
+                                  {{title}}
+                                  {{#if internal}}{{dc 'icon-internal'}}{{/if}}
+                              </a>
+                          </div>
+                      </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/is}}
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Tips-Type --}}
+      <div class="category-section" tips-type  aria-expanded="true"
+          {{#each (slice (filter category.sections on="description" equals="Tips-Type") 0 1)}} style="margin-bottom: 2px"{{/each}}>
+        {{#each (slice (filter category.sections on="description" equals="Tips-Type") 0 1)}}
+          <div class="category-section-header">
+              <span class="category-section-title title-3">
+                {{dc 'section_tips_subsection_title'}}
+              </span>
+              <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                  <span class="iconfont bold" >&#xe7b2;</span>
+              </button>
+          </div>
+        {{/each}}
+        <div class="subsections-list normal-article section-title-collection
+          {{#each (slice (filter category.sections on="description" equals="Tips-Type") 0 1)}} mt-xl  mb-3xl{{/each}}">
+          {{#each category.sections}}
+            {{#is description 'Tips-Type' }}
+              <div class="subsections-container mt-2xl" is-tips-type-exist>
+                <div class="font-bw-1 title-4 bold">{{name}}</div>
+                <ul class="article-list">
+                  {{#each articles}}
+                      <li class="article-list-item">
+                          <div class="article-item">
+                              <a href="{{url}}" class="article-list-link">
+                                  {{#if promoted}}{{dc 'icon-promoted'}}{{/if}}
+                                  {{title}}
+                                  {{#if internal}}{{dc 'icon-internal'}}{{/if}}
+                              </a>
+                          </div>
+                      </li>
+                  {{/each}}
+                </ul>
+                {{#if more_articles}}
+                    <a href="{{url}}" class="snmk-btn">
+                        {{t 'show_all_articles' count=article_count}}
+                    </a>
+                {{/if}}
+              </div>
+            {{/is}}
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Inquiry-Type --}}
+      <div class="category-section" inquiry-type aria-expanded="true"
+          {{#each (slice (filter category.sections on="description" equals="Inquiry-Type") 0 1)}} style="margin-bottom: 2px"{{/each}}>
+        {{#each (slice (filter category.sections on="description" equals="Inquiry-Type") 0 1)}}
+          <div class="category-section-header">
+              <span class="category-section-title title-3">
+                {{dc 'section_inquiry_subsection_title'}}
+              </span>
+              <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                  <span class="iconfont bold" >&#xe7b2;</span>
+              </button>
+          </div>
+        {{/each}}
+        <div class="subsections-list normal-article section-title-collection
+          {{#each (slice (filter category.sections on="description" equals="Inquiry-Type") 0 1)}} mt-xl  mb-3xl{{/each}}">
+          {{#each category.sections}}
+            {{#is description 'Inquiry-Type' }}
+              <div class="subsections-container mt-2xl" is-inquiry-type-exist>
+                <div class="font-bw-1 title-4 bold">{{name}}</div>
+                <ul class="article-list">
+                  {{#each articles}}
+                      <li class="article-list-item">
+                          <div class="article-item">
+                              <a href="{{url}}" class="article-list-link">
+                                  {{#if promoted}}{{dc 'icon-promoted'}}{{/if}}
+                                  {{title}}
+                                  {{#if internal}}{{dc 'icon-internal'}}{{/if}}
+                              </a>
+                          </div>
+                      </li>
+                  {{/each}}
+                </ul>
+                {{#if more_articles}}
+                    <a href="{{url}}" class="snmk-btn">
+                        {{t 'show_all_articles' count=article_count}}
+                    </a>
+                {{/if}}
+              </div>
+            {{/is}}
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Troubleshooting-Type --}}
+      <div class="category-section" troubleshooting-type aria-expanded="true" 
+          {{#each (slice (filter category.sections on="description" equals="Troubleshooting-Type") 0 1)}} style="margin-bottom: 2px"{{/each}}>
+        {{#each (slice (filter category.sections on="description" equals="Troubleshooting-Type") 0 1)}}
+          <div class="category-section-header">
+              <span class="category-section-title title-3">
+                {{dc 'section_troubleshooting_subsection_title'}}
+              </span>
+              <button type="button" class="category-section-toggle vertical-center" aria-expanded="true">
+                  <span class="iconfont bold" >&#xe7b2;</span>
+              </button>
+          </div>
+        {{/each}}
+        <div class="subsections-list normal-article section-title-collection
+          {{#each (slice (filter category.sections on="description" equals="Troubleshooting-Type") 0 1)}} mt-xl  mb-3xl{{/each}}">
+          {{#each category.sections}}
+            {{#is description 'Troubleshooting-Type' }}
+              <div class="subsections-container mt-2xl" is-troubleshooting-type-exist>
+                <div class="font-bw-1 title-4 bold">{{name}}</div>
+                <ul class="article-list">
+                  {{#each articles}}
+                      <li class="article-list-item">
+                          <div class="article-item">
+                              <a href="{{url}}" class="article-list-link">
+                                  {{#if promoted}}{{dc 'icon-promoted'}}{{/if}}
+                                  {{title}}
+                                  {{#if internal}}{{dc 'icon-internal'}}{{/if}}
+                              </a>
+                          </div>
+                      </li>
+                  {{/each}}
+                </ul>
+                {{#if more_articles}}
+                    <a href="{{url}}" class="snmk-btn">
+                        {{t 'show_all_articles' count=article_count}}
+                    </a>
+                {{/if}}
+              </div>
+            {{/is}}
+          {{/each}}
+        </div>
+      </div>
       
     </div>
   </div>

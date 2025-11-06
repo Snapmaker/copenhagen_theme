@@ -1377,6 +1377,7 @@ async function handleSectionResource(id, locale) {
     const placeholderSoftware = getEl('#placeholder-software') || {};
     const placeholderFirmware = getEl('#placeholder-firmware') || {};
     const placeholderCuraPlugins = getEl('#placeholder-cura-plugins') || {};
+    const placeholderApp = getEl('#placeholder-app') || {};
 
     const fold = locale === 'zh-cn' ? 'cn' : 'en';
     let configuration
@@ -1390,14 +1391,56 @@ async function handleSectionResource(id, locale) {
         console.warn(`Unable to fetch page resource file for section: ${id}, err =`, e);
     }
 
+    let U1Firmware = null;
+    let U1Software = null;
+    let U1App = null
+    if(id == '36087874981527') {
+        console.log('===========1')
+        U1Firmware = handleDownloadFile({
+            title: 'Firmware',
+            time: 'Nov 06, 2025',
+            download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.0.121_20251106132913_upgrade.bin',
+            text: "Download Firmware V0.9.0",
+            description: []
+        })
+        fileResourceContainer.replaceChild(U1Firmware, placeholderFirmware);
+        U1Software = handleDownloadFile({
+            title: 'Slicer Software',
+            time: 'Nov 06, 2025',
+            download_link: 'https://github.com/Snapmaker/OrcaSlicer/releases/tag/v2.1.1',
+            text: "Snapmaker Orca V2.1.1",
+            description: ""
+        })
+        fileResourceContainer.replaceChild(U1Software, placeholderSoftware);
+
+        U1App = handleMultiBtn({
+            title: 'App',
+            time: 'Nov 06, 2025',
+            description: [],
+            btn: [
+                {
+                    link: 'https://apps.apple.com/app/Snapmaker/id6670739251?mt=12 ',
+                    text: "Download APP for iOS"
+                },
+                {
+                    link: 'https://play.google.com/store/apps/details?id=com.snapmaker.lavaapp',
+                    text: "Download APP for Android"
+                }
+            ]
+        })
+        fileResourceContainer.replaceChild(U1App, placeholderApp);
+    }
+
     // TODO: add separate configuration for luban support
     try {
-        softwarePromise = handleLubanSoftware(locale).then(v=>{
-            fileResourceContainer.replaceChild(v, placeholderSoftware);
-        }).catch(err=> {
-            fileResourceContainer.removeChild(placeholderSoftware)
-            console.warn(`Unable to replace Luban resource hmtl node for section: ${id}, err =`, err);
-        })
+        if(id != '36087874981527') {
+            softwarePromise = handleLubanSoftware(locale).then(v=>{
+                fileResourceContainer.replaceChild(v, placeholderSoftware);
+            }).catch(err=> {
+                fileResourceContainer.removeChild(placeholderSoftware)
+                console.warn(`Unable to replace Luban resource hmtl node for section: ${id}, err =`, err);
+            })
+        }
     } catch (e) {
         console.warn(`Unable to fetch Luban software resource file for section: ${id}, err =`, e);
     }
@@ -1461,7 +1504,7 @@ async function handleSectionResource(id, locale) {
         console.warn(`Unable to download resource file for section: ${id}, err =`, e);
     }
     
-    resArr = await Promise.all([configuration, softwarePromise, firmwarePromise, curaPluginPromise])
+    resArr = await Promise.all([configuration, id=="36087874981527" ? Promise.resolve(U1Firmware) : firmwarePromise, curaPluginPromise])
     try {
         handleScrollText(fileResourceContainer);
     } catch (e) {
@@ -1520,6 +1563,32 @@ function handleSelectDownload(resource) {
         <ul class="dropdown">${dropdown}</ul>
       </div>
       <p class="mt-s">${description}</p>`;
+    return el
+}
+
+function handleMultiBtn(resource) {
+    const description = handleSectionResourceDescription(resource.description, resource.title);
+    const el = document.createElement('div')
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
+    let btnHtml = ``
+    resource.btn.forEach(v => {
+        btnHtml += `<a href="${v.link}" download class="file-download-btn w-100 mt-m bold" title="${v.text}" target="_blank">
+          <div class="scroll-text-btn"><span class="text-box">${v.text}</span></div>
+          <span class="iconfont">&#xe721;</span>
+        </a>`;
+    });
+    el.innerHTML = `
+    <div class="resource-title-container">
+      <div class="scroll-text-title resource-title">
+          <span class="title-3 bold font-bw-1 text-box" title="${resource.title}">${resource.title}</span>
+      </div>
+      <div class="scroll-text-time resource-time">
+          <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
+      </div>
+    </div> 
+    ${btnHtml}
+    <p class="mt-s">${description}</p>
+  `;
     return el
 }
 
