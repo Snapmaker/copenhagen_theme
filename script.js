@@ -1429,6 +1429,8 @@ async function handleSectionResource(id, locale) {
             ]
         })
         fileResourceContainer.replaceChild(U1App, placeholderApp);
+    }else {
+        fileResourceContainer.removeChild(placeholderApp)
     }
 
     // TODO: add separate configuration for luban support

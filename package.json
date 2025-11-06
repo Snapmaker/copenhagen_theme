@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "repository": "git@github.com:zendesk/copenhagen_theme.git",
   "dependencies": {
+    "express": "^5.1.0",
     "font-awesome": "^4.7.0",
-    "node-fetch": "^2.1.2"
+    "http-proxy-middleware": "^3.0.5",
+    "node-fetch": "^2.1.2",
+    "swiper": "^9.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
