@@ -435,6 +435,53 @@ const scrollnav = (function () {
 })();
 
 
+(function() {
+    const isPreview = location.hostname.endsWith('.zendesk.com');
+    // 本地代理地址（需使用 HTTPS，避免混合内容被浏览器阻止）
+    const PROXY_ORIGIN = 'http://localhost:3000';
+
+    function rewriteUrl(url) {
+        try {
+            const u = new URL(url, location.origin);
+            // 仅在预览域拦截 /hc/activity，改写到本地代理
+            if (isPreview && u.pathname === '/hc/activity') {
+                return PROXY_ORIGIN + u.pathname + u.search;
+            }
+        } catch (e) {
+            // 相对路径场景
+            if (isPreview && url === '/hc/activity') {
+                return PROXY_ORIGIN + url;
+            }
+        }
+        return url;
+    }
+
+    // 拦截 fetch
+    if (window.fetch) {
+        const origFetch = window.fetch;
+        window.fetch = function(input, init) {
+            let url = typeof input === 'string' ? input : input.url;
+            const rewritten = rewriteUrl(url);
+            if (rewritten !== url) {
+                if (typeof input !== 'string') {
+                    input = new Request(rewritten, input);
+                } else {
+                    input = rewritten;
+                }
+                init = Object.assign({ credentials: 'include' }, init || {});
+            }
+            return origFetch(input, init);
+        };
+    }
+
+    // 拦截 XHR
+    const origOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+        const rewritten = rewriteUrl(url);
+        return origOpen.call(this, method, rewritten, async, user, password);
+    };
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
 
     /* header */
