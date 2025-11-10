@@ -1442,7 +1442,6 @@ async function handleSectionResource(id, locale) {
     let U1Software = null;
     let U1App = null
     if(id == '36087874981527') {
-        console.log('===========1')
         U1Firmware = handleDownloadFile({
             title: 'Firmware',
             time: 'Nov 06, 2025',
@@ -1452,7 +1451,7 @@ async function handleSectionResource(id, locale) {
         })
         fileResourceContainer.replaceChild(U1Firmware, placeholderFirmware);
         U1Software = handleDownloadFile({
-            title: 'Slicer Software',
+            title: 'Software',
             time: 'Nov 06, 2025',
             download_link: 'https://github.com/Snapmaker/OrcaSlicer/releases/tag/v2.1.1',
             text: "Snapmaker Orca V2.1.1",
@@ -2297,11 +2296,9 @@ function createEl(tag, attr, ...children) {
     }
     
     function renderProductions(config) {
-        console.log('config',config)
         const container = getEl('#productions')
         return config.map((productionClass, index) => {
             const categoriesEl = categoriesElMap(productionClass, index)
-            console.log('categoriesEl',categoriesEl)
             const fragment = document.createDocumentFragment()
             // const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
             const content = createEl('div', {class: 'category-sections pos-relative', id: `section-${index}`}, ...categoriesEl)
@@ -2440,10 +2437,8 @@ window.addEventListener('DOMContentLoaded', function() {
         `
     }
     function blogPostRender(blogPostObj) {
-        console.log(blogPostObj)
         if(!blogPostObj) return
         const blogPosts = document.querySelector('.production-academy')
-        console.log(blogPostObj, blogPosts, blogPostObj.blogPosts)
         if(!blogPosts) return
         let renderHTML = '';
         blogPostObj.blogPosts.forEach(post => {
