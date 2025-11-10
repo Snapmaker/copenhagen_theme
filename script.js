@@ -1462,7 +1462,12 @@ async function handleSectionResource(id, locale) {
         U1App = handleMultiBtn({
             title: 'App',
             time: 'Nov 06, 2025',
-            description: [],
+            description: [
+                {
+                    "text": "The App for iOS is under App Store review and will be available soon.",
+                    "link": ""
+                }
+            ],
             btn: [
                 {
                     link: 'https://apps.apple.com/app/Snapmaker/id6670739251?mt=12 ',
@@ -1616,6 +1621,7 @@ function handleSelectDownload(resource) {
 
 function handleMultiBtn(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
+    console.log('description', resource.description)
     const el = document.createElement('div')
     el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     let btnHtml = ``
