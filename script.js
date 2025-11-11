@@ -1447,7 +1447,16 @@ async function handleSectionResource(id, locale) {
             time: 'Nov 06, 2025',
             download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.0.121_20251106132913_upgrade.bin',
             text: "Download Firmware V0.9.0",
-            description: []
+            description: [
+                {
+                    "text": "For release notes and historical downloads, see our ",
+                    "link": ""
+                },
+                {
+                    "text": " Wiki Release Notes.",
+                    "link": "https://wiki.snapmaker.com/en/snapmaker_u1/firmware/release_notes"
+                }
+            ]
         })
         fileResourceContainer.replaceChild(U1Firmware, placeholderFirmware);
         U1Software = handleDownloadFile({
@@ -1455,7 +1464,17 @@ async function handleSectionResource(id, locale) {
             time: 'Nov 06, 2025',
             download_link: 'https://github.com/Snapmaker/OrcaSlicer/releases/tag/v2.1.1',
             text: "Snapmaker Orca V2.1.1",
-            description: ""
+            description: [
+                
+                {
+                    "text": "For release notes, see our ",
+                    "link": ""
+                },
+                {
+                    "text": " Wiki Release Notes.",
+                    "link": "https://wiki.snapmaker.com/en/snapmaker_orca/release_notes"
+                }
+            ]
         })
         fileResourceContainer.replaceChild(U1Software, placeholderSoftware);
 
@@ -1464,8 +1483,12 @@ async function handleSectionResource(id, locale) {
             time: 'Nov 06, 2025',
             description: [
                 {
-                    "text": "The App for iOS is under App Store review and will be available soon.",
+                    "text": "For release notes, see our ",
                     "link": ""
+                },
+                {
+                    "text": " Wiki Release Notes.",
+                    "link": "https://wiki.snapmaker.com/en/snapmaker_app/release_notes"
                 }
             ],
             btn: [
@@ -1621,7 +1644,6 @@ function handleSelectDownload(resource) {
 
 function handleMultiBtn(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
-    console.log('description', resource.description)
     const el = document.createElement('div')
     el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     let btnHtml = ``
@@ -1793,7 +1815,7 @@ function handleSectionResourceDescription(description, title) {
 
     let descriptionHtml = ``;
     description.forEach(v => {
-        descriptionHtml += !v.link ? `<span class="font-2">${v.text}</span>` : `<a class="snmk-link-btn" href="${v.link}">${v.text}</a>`;
+        descriptionHtml += !v.link ? `<span class="font-2">${v.text}</span>` : `<a class="snmk-link-btn" href="${v.link}" target="_blank">${v.text}</a>`;
     });
     return descriptionHtml;
 }
