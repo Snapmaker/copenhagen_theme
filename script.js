@@ -1462,10 +1462,9 @@ async function handleSectionResource(id, locale) {
         U1Software = handleDownloadFile({
             title: 'Software',
             time: 'Nov 06, 2025',
-            download_link: 'https://github.com/Snapmaker/OrcaSlicer/releases/tag/v2.1.1',
+            download_link: 'https://www.snapmaker.com/en-US/snapmaker-orca',
             text: "Snapmaker Orca V2.1.1",
             description: [
-                
                 {
                     "text": "For release notes, see our ",
                     "link": ""
