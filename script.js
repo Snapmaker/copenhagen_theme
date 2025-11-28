@@ -1459,23 +1459,6 @@ async function handleSectionResource(id, locale) {
             ]
         })
         fileResourceContainer.replaceChild(U1Firmware, placeholderFirmware);
-        U1Software = handleDownloadFile({
-            title: 'Software',
-            time: 'Nov 06, 2025',
-            download_link: 'https://www.snapmaker.com/en-US/snapmaker-orca',
-            text: "Snapmaker Orca V2.1.1",
-            description: [
-                {
-                    "text": "For release notes, see our ",
-                    "link": ""
-                },
-                {
-                    "text": " Wiki Release Notes.",
-                    "link": "https://wiki.snapmaker.com/en/snapmaker_orca/release_notes"
-                }
-            ]
-        })
-        fileResourceContainer.replaceChild(U1Software, placeholderSoftware);
 
         U1App = handleMultiBtn({
             title: 'App',
@@ -1502,6 +1485,9 @@ async function handleSectionResource(id, locale) {
             ]
         })
         fileResourceContainer.replaceChild(U1App, placeholderApp);
+        
+        U1Software = await handleLubanSoftware()
+        fileResourceContainer.replaceChild(U1Software, placeholderSoftware);
     }else {
         fileResourceContainer.removeChild(placeholderApp)
     }
@@ -2475,3 +2461,92 @@ window.addEventListener('DOMContentLoaded', function() {
     } 
     window.blogPostRender = blogPostRender
 })(window)
+
+function formatDateManual(isoString) {
+    const date = new Date(isoString);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const month = months[date.getUTCMonth()];
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const year = date.getUTCFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
+/**
+ * @description get the version and installers package of orca; data from https://api.github.com/repos/Snapmaker/OrcaSlicer/releases/latest
+ * @returns the innerHTML of Software(ocrca) block
+ */
+async function handleLubanSoftware() {
+    let templateData = {
+        title: 'Software',
+        time: 'Nov 06, 2025',
+        download_link: 'https://www.snapmaker.com/en-US/snapmaker-orca',
+        text: "",
+        description: [
+            {
+                "text": "For release notes, see our ",
+                "link": ""
+            },
+            {
+                "text": " Wiki Release Notes.",
+                "link": "https://wiki.snapmaker.com/en/snapmaker_orca/release_notes"
+            }
+        ]
+    };
+
+    const res = await ajax({
+        method: 'GET',
+        url: 'https://api.github.com/repos/Snapmaker/OrcaSlicer/releases/latest'
+    });
+    templateData.time = formatDateManual(res.published_at);
+    const softwareVersion = res.name.replace('Release', '');
+    const installersAssets = res.assets.filter(v => v.name.indexOf('.yml') === -1);
+
+    const finder = (orignal, target) => new RegExp(target).test(orignal);
+
+    const uaParser = new UAParser();
+    
+    const ua = uaParser.getResult();
+    const checkOS = (osType, CheckString) => {
+        return installersAssets
+            .filter(v => finder(v.name, osType))
+            .filter(
+                v => finder(v.name.toLowerCase(), CheckString)
+            )[0];
+    };
+
+    let isFoundVersion = false;
+
+    switch (ua.os.name) {
+        case 'Windows': {
+            const targetAssets = checkOS('Windows', '.exe');
+            templateData.download_link = targetAssets ? targetAssets.browser_download_url : checkOS('Windows', '.zip').browser_download_url;
+            break;
+        }
+        case 'Mac OS': {
+            const targetAssets = checkOS('Mac', ua.cpu.architecture || '.dmg');
+            templateData.download_link = targetAssets ? targetAssets.browser_download_url : checkOS('Mac', '.dmg').browser_download_url;
+            break;
+        }
+        case 'Ubuntu':{
+            const targetAssets = checkOS('Ubuntu', 'ubuntu1');
+            templateData.download_link = targetAssets ? targetAssets.browser_download_url : undefined;
+            break;
+        }
+        case 'Debian': 
+        case 'Linux': {
+            const targetAssets = checkOS('Linux', 'linux_v');
+            templateData.download_link = targetAssets ? targetAssets.browser_download_url : undefined;
+            break;
+        }
+        default: {
+            isFoundVersion = false;
+        }
+    }
+    isFoundVersion = !!templateData.download_link;
+    templateData.text = isFoundVersion ? templateData.text + softwareVersion : 'Installer Not Found. Please Download from the GitHub';
+    templateData.download_link = isFoundVersion ? templateData.download_link : res.html_url;
+
+    return handleDownloadFile(templateData);
+}
