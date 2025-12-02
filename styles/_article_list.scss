@@ -86,14 +86,14 @@
 
   @include tablet {
     flex: 0 0 50%; // 2 columns
-    padding-right: 15px;
+    padding-right: 24px;
     padding-top: 15px;
     padding-bottom: 15px;
   }
 
   @include desktop {
     flex: 0 0 33%; // 3 columns
-    padding-right: 15px;
+    padding-right: 24px;
     padding-top: 15px;
     padding-bottom: 15px;
   }

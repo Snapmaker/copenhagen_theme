@@ -1,7 +1,7 @@
 {
   "name": "Snapmaker-Copenhagen",
   "author": "Snapmaker",
-  "version": "3.6.32",
+  "version": "3.7.9",
   "api_version": 2,
   "default_locale": "en-us",
   "settings": [
@@ -306,6 +306,18 @@
           "description": "follow_topic_description",
           "label": "follow_topic_label",
           "value": true
+        }
+      ]
+    },
+    {
+      "label": "custom_group_label",
+      "variables": [
+        {
+          "identifier": "footer_right",
+          "type": "text",
+          "description": "footer_right_description",
+          "label": "footer_right_label",
+          "value": "©2025 Snapmaker All Rights Reserved"
         }
       ]
     }

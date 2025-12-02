@@ -435,6 +435,53 @@ const scrollnav = (function () {
 })();
 
 
+(function() {
+    const isPreview = location.hostname.endsWith('.zendesk.com');
+    // 本地代理地址（需使用 HTTPS，避免混合内容被浏览器阻止）
+    const PROXY_ORIGIN = 'http://localhost:3000';
+
+    function rewriteUrl(url) {
+        try {
+            const u = new URL(url, location.origin);
+            // 仅在预览域拦截 /hc/activity，改写到本地代理
+            if (isPreview && u.pathname === '/hc/activity') {
+                return PROXY_ORIGIN + u.pathname + u.search;
+            }
+        } catch (e) {
+            // 相对路径场景
+            if (isPreview && url === '/hc/activity') {
+                return PROXY_ORIGIN + url;
+            }
+        }
+        return url;
+    }
+
+    // 拦截 fetch
+    if (window.fetch) {
+        const origFetch = window.fetch;
+        window.fetch = function(input, init) {
+            let url = typeof input === 'string' ? input : input.url;
+            const rewritten = rewriteUrl(url);
+            if (rewritten !== url) {
+                if (typeof input !== 'string') {
+                    input = new Request(rewritten, input);
+                } else {
+                    input = rewritten;
+                }
+                init = Object.assign({ credentials: 'include' }, init || {});
+            }
+            return origFetch(input, init);
+        };
+    }
+
+    // 拦截 XHR
+    const origOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+        const rewritten = rewriteUrl(url);
+        return origOpen.call(this, method, rewritten, async, user, password);
+    };
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
 
     /* header */
@@ -452,41 +499,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // hanldeRefatorAnnouncementModal()
 
     handleBreadcrumbs();
-    const isHomePage = new RegExp('https://support.snapmaker.com/hc/(zh-cn|en-us)((/*)|#(.*))$', 'ig').test(window.location.href);
-
-    // entry home
-    if (isHomePage) {
-        // home page remove footer search
-        const footerSearch = getEl('#footer-search');
-        if (footerSearch) footerSearch.style.display = 'none';
-
-        // home page add second bar
-        const secondNavBar = getEl('#second-nav-bar');
-        if (secondNavBar) secondNavBar.style.display = 'flex';
-        const headerNavBar = getEl('#header-nav-bar');
-        if (headerNavBar) headerNavBar.classList.add('has-second-bar');
-
-        // second bar interactive init
-        const initFn = () => {
-            initSecondBarActive();
-            secondBarActive();
-            drawerInit();
-        };
-        const ref = setInterval(initFn, 500);
-        setTimeout(() => {
-            clearInterval(ref);
-        }, 5000);
-        window.addEventListener('resize', throttle(initFn, 100));
-        window.addEventListener('scroll', throttle(function (e) {
-            secondBarActive();
-        }, 100));
-
-        window.onOpenDrawer = () => {
-            openDrawer();
-            initSecondBarActive();
-            secondBarActive();
-        };
-    }
 
     // Key map
     var ENTER = 13;
@@ -1021,7 +1033,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Header Component: control header show or not when scroll
      */
-    const headersHeight = isHomePage ? 156 : 80;
+    const headersHeight = 80;
     const firstBarHeight = 80;
     let lastScrollPosition = 0;
 
@@ -1277,56 +1289,6 @@ function onClickMask() {
     removeMask();
 }
 
-/**
- * @description  header component: second bar item active or not handle
- */
-function initSecondBarActive() {
-    window.lastItem = null;
-    window.navitemId = ['product_support', 'software_support', 'bar_academy', 'bar_service', 'still_need_help'];
-    window.navItems = navitemId.map(v => document.querySelector(`#${v}`));
-    window.anchorId = ['product-support', 'software-support', 'academy', 'service', 'still-need-help'];
-    window.anchorItems = anchorId.map(v => document.querySelector(`#${v}`));
-    window.anchorScrollTop = anchorItems.map(v => v && getElDocumentTop(v));
-
-    window.subNavCurrText = document.querySelector(`#sub-nav-curr-text`);
-}
-
-function secondBarActive() {
-    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    let currIdx = 0;
-    for (let i = 0; i < navItems.length; i++) {
-        if (currentScrollPosition < (anchorScrollTop[i] - 20)) {
-            if (navItems[currIdx] === lastItem) break;
-            navItems[currIdx] && navItems[currIdx].classList.add('active-nav-item');
-            subNavCurrText.innerHTML = mobSubNavText[currIdx];
-            lastItem && lastItem.classList.remove('active-nav-item');
-            lastItem = navItems[currIdx];
-            break;
-        }
-        currIdx = i;
-    }
-    if (currIdx === (navItems.length - 1) && navItems[currIdx] !== lastItem) {
-        navItems[currIdx] && navItems[currIdx].classList.add('active-nav-item');
-        subNavCurrText.innerHTML = mobSubNavText[currIdx];
-        lastItem && lastItem.classList.remove('active-nav-item');
-        lastItem = navItems[currIdx];
-    }
-
-    // used 2022.1~2022.8.29
-    // const navHome = getEl('#nav-home')
-    // const navAcademy = getEl('#nav-academy')
-    // if (new RegExp('/hc/(en-us|zh-cn)[/]*$').test(window.location.pathname)) {
-    //     navHome.classList.add('active-nav-item')
-    //     navAcademy.classList.remove('active-nav-item')
-    //     return
-    // }
-    // if (window.location.pathname.includes('360003536313')) {
-    //     navHome.classList.remove('active-nav-item')
-    //     navAcademy.classList.add('active-nav-item')
-    //     return
-    // }
-}
-
 
 /**
  * @description footer component: unfold/fold
@@ -1462,6 +1424,7 @@ async function handleSectionResource(id, locale) {
     const placeholderSoftware = getEl('#placeholder-software') || {};
     const placeholderFirmware = getEl('#placeholder-firmware') || {};
     const placeholderCuraPlugins = getEl('#placeholder-cura-plugins') || {};
+    const placeholderApp = getEl('#placeholder-app') || {};
 
     const fold = locale === 'zh-cn' ? 'cn' : 'en';
     let configuration
@@ -1475,14 +1438,70 @@ async function handleSectionResource(id, locale) {
         console.warn(`Unable to fetch page resource file for section: ${id}, err =`, e);
     }
 
+    let U1Firmware = null;
+    let U1Software = null;
+    let U1App = null
+    if(id == '36087874981527') {
+        U1Firmware = handleDownloadFile({
+            title: 'Firmware',
+            time: 'Nov 06, 2025',
+            download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.0.121_20251106132913_upgrade.bin',
+            text: "Download Firmware V0.9.0",
+            description: [
+                {
+                    "text": "For release notes and historical downloads, see our ",
+                    "link": ""
+                },
+                {
+                    "text": " Wiki Release Notes.",
+                    "link": "https://wiki.snapmaker.com/en/snapmaker_u1/firmware/release_notes"
+                }
+            ]
+        })
+        fileResourceContainer.replaceChild(U1Firmware, placeholderFirmware);
+
+        U1App = handleMultiBtn({
+            title: 'App',
+            time: 'Nov 06, 2025',
+            description: [
+                {
+                    "text": "For release notes, see our ",
+                    "link": ""
+                },
+                {
+                    "text": " Wiki Release Notes.",
+                    "link": "https://wiki.snapmaker.com/en/snapmaker_app/release_notes"
+                }
+            ],
+            btn: [
+                {
+                    link: 'https://apps.apple.com/app/Snapmaker/id6670739251?mt=12 ',
+                    text: "iOS"
+                },
+                {
+                    link: 'https://play.google.com/store/apps/details?id=com.snapmaker.lavaapp',
+                    text: "Android"
+                }
+            ]
+        })
+        fileResourceContainer.replaceChild(U1App, placeholderApp);
+        
+        U1Software = await handleOrcaSoftware()
+        fileResourceContainer.replaceChild(U1Software, placeholderSoftware);
+    }else {
+        fileResourceContainer.removeChild(placeholderApp)
+    }
+
     // TODO: add separate configuration for luban support
     try {
-        softwarePromise = handleLubanSoftware(locale).then(v=>{
-            fileResourceContainer.replaceChild(v, placeholderSoftware);
-        }).catch(err=> {
-            fileResourceContainer.removeChild(placeholderSoftware)
-            console.warn(`Unable to replace Luban resource hmtl node for section: ${id}, err =`, err);
-        })
+        if(id != '36087874981527') {
+            softwarePromise = handleLubanSoftware(locale).then(v=>{
+                fileResourceContainer.replaceChild(v, placeholderSoftware);
+            }).catch(err=> {
+                fileResourceContainer.removeChild(placeholderSoftware)
+                console.warn(`Unable to replace Luban resource hmtl node for section: ${id}, err =`, err);
+            })
+        }
     } catch (e) {
         console.warn(`Unable to fetch Luban software resource file for section: ${id}, err =`, e);
     }
@@ -1546,7 +1565,7 @@ async function handleSectionResource(id, locale) {
         console.warn(`Unable to download resource file for section: ${id}, err =`, e);
     }
     
-    resArr = await Promise.all([configuration, softwarePromise, firmwarePromise, curaPluginPromise])
+    resArr = await Promise.all([configuration, id=="36087874981527" ? Promise.resolve(U1Firmware) : firmwarePromise, curaPluginPromise])
     try {
         handleScrollText(fileResourceContainer);
     } catch (e) {
@@ -1561,7 +1580,7 @@ function handleResourceDownload(resource) {
 function handleDownloadFile(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-xl")
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     el.innerHTML = `
     <div class="resource-title-container">
       <div class="scroll-text-title resource-title">
@@ -1571,29 +1590,13 @@ function handleDownloadFile(resource) {
           <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
       </div>
     </div>
-    <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m" title="${resource.text}" target="_blank">
+    <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m bold" title="${resource.text}" target="_blank">
       <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
       <span class="iconfont">&#xe721;</span>
     </a>
     <p class="mt-s">${description}</p>
   `;
     return el
-//   `<div class="file-resource-container mr-l mt-xl">
-//       <div class="resource-title-container">
-//         <div class="scroll-text-title resource-title">
-//             <span class="title-3 bold font-bw-1 text-box" title="${resource.title}">${resource.title}</span>
-//         </div>
-//         <div class="scroll-text-time resource-time">
-//             <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
-//         </div>
-//       </div>
-//       <a href="${resource.download_link}" download class="file-download-btn w-100 mt-m" title="${resource.text}" target="_blank">
-//         <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
-//         <span class="iconfont">&#xe721;</span>
-//       </a>
-//       <p class="mt-s">${description}</p>
-//     </div>
-//     `;
 }
 
 function handleSelectDownload(resource) {
@@ -1603,7 +1606,7 @@ function handleSelectDownload(resource) {
         dropdown += `<li><a class="py-s" href="${v.link}" title="${v.text}" target="_blank">${v.text}</a></li>`;
     });
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-xl")
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
     el.innerHTML = `
       <div class="resource-title-container">
         <div class="scroll-text-title resource-title">
@@ -1614,13 +1617,39 @@ function handleSelectDownload(resource) {
         </div>
       </div>
       <div class="resource-select"  aria-expanded="false" onclick="onChangeFileSelect(this, event)">
-        <div class="file-download-btn w-100 mt-m" title="${resource.text}">
+        <div class="file-download-btn w-100 mt-m bold" title="${resource.text}">
           <div class="scroll-text-btn"><span class="text-box">${resource.text}</span></div>
           <span class="iconfont down">&#xe7b2;</span>
         </div>
         <ul class="dropdown">${dropdown}</ul>
       </div>
       <p class="mt-s">${description}</p>`;
+    return el
+}
+
+function handleMultiBtn(resource) {
+    const description = handleSectionResourceDescription(resource.description, resource.title);
+    const el = document.createElement('div')
+    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
+    let btnHtml = ``
+    resource.btn.forEach(v => {
+        btnHtml += `<a href="${v.link}" download class="file-download-btn w-100 mt-m bold" title="${v.text}" target="_blank">
+          <div class="scroll-text-btn"><span class="text-box">${v.text}</span></div>
+          <span class="iconfont">&#xe721;</span>
+        </a>`;
+    });
+    el.innerHTML = `
+    <div class="resource-title-container">
+      <div class="scroll-text-title resource-title">
+          <span class="title-3 bold font-bw-1 text-box" title="${resource.title}">${resource.title}</span>
+      </div>
+      <div class="scroll-text-time resource-time">
+          <span class="font-1 font-bw-3 text-box" title="${resource.time}">${resource.time}</span>
+      </div>
+    </div> 
+    ${btnHtml}
+    <p class="mt-s">${description}</p>
+  `;
     return el
 }
 
@@ -1771,7 +1800,7 @@ function handleSectionResourceDescription(description, title) {
 
     let descriptionHtml = ``;
     description.forEach(v => {
-        descriptionHtml += !v.link ? `<span class="font-2">${v.text}</span>` : `<a class="snmk-link-btn" href="${v.link}">${v.text}</a>`;
+        descriptionHtml += !v.link ? `<span class="font-2">${v.text}</span>` : `<a class="snmk-link-btn" href="${v.link}" target="_blank">${v.text}</a>`;
     });
     return descriptionHtml;
 }
@@ -2266,68 +2295,45 @@ function createEl(tag, attr, ...children) {
     })
     return el
 }
+
+function formatDateManual(isoString) {
+    const date = new Date(isoString);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const month = months[date.getUTCMonth()];
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const year = date.getUTCFullYear();
+    
+    return `${month} ${day}, ${year}`;
+}
 //============================================== update Acady(category) and home page(2022.8.29~) ==============================================
-(function (window) {
-    let container, drawerAnchor, drawer, drawerCover;
 
-    let isOpen = false;
-
-    function drawerInit() {
-        if (isOpen) return;
-        container = document.querySelector(`#section-1`);
-        drawerAnchor = document.querySelector(`#drawer-anchor`);
-        drawer = document.querySelector(`#drawer`);
-        drawerCover = document.querySelector(`#drawer-cover`);
-
-        drawer.style.height = container.offsetTop + drawerAnchor.offsetTop + 'px';
-        drawerCover.style.height = drawerAnchor.offsetTop + 'px';
-        return container.offsetTop + drawerAnchor.offsetTop;
-    }
-
-    function openDrawer() {
-        if (isOpen) return;
-        drawer && (drawer.style.height = '');
-        drawerCover && (drawerCover.style.display = 'none');
-        isOpen = true;
-    }
-
-    window.drawerInit = drawerInit;
-    window.openDrawer = openDrawer;
-})(window);
 //============================================== zendesk plan shift (2023.3.8) ==============================================
 
 (function(window) {    
     async function getHomePageConfig() {
-        return homePageConfig
+        return homePageConfigv2 //homePageConfig
     }
     async function homePageRender() {
         const res = await getHomePageConfig()
-        const el = document.createElement('div')
-        el.innerHTML = renderProductions(res.productions)
+        renderProductions(res.productions)
     }
     
     function renderProductions(config) {
-        const container = getEl('#drawer')
+        const container = getEl('#productions')
         return config.map((productionClass, index) => {
             const categoriesEl = categoriesElMap(productionClass, index)
             const fragment = document.createDocumentFragment()
-            const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
+            // const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
             const content = createEl('div', {class: 'category-sections pos-relative', id: `section-${index}`}, ...categoriesEl)
-            fragment.appendChild(title)
+            // fragment.appendChild(title)
             fragment.appendChild(content)
             container.appendChild(fragment)
             return fragment
-            // return `
-            //     <div class="title-3 font-bw-1 bold mr-xs mb-xl mt-2xl" id="title-${index}">${productionClass.name}</div>
-            //     <div class="category-sections pos-relative" id="section-${index}">${categoriesEl}</div>  
-            // `
         })
-        // .join('')
-    
     }
-    function categoriesElMap(productionClass, topLevelIndex) {
-        const drawerAnchor = (topLevelIndex,index) => topLevelIndex===1 && index === 0 ? createEl('div', {id: "drawer-anchor"}) : document.createTextNode('')
-        // const drawerAnchor = (topLevelIndex,index) => topLevelIndex===1 && index === 0 ? `<div id="drawer-anchor"></div>` : ''
+    function categoriesElMap(productionClass) {
         const categories = productionClass.categories
         if(!categories) return ''
         return categories.map((category, index) => {
@@ -2336,22 +2342,13 @@ function createEl(tag, attr, ...children) {
                     createEl('img', {class: 'w-100', src: category.img, alt: category.name})
                 ),
                 createEl('div', {class: "text-center mt-xs px-l"}, 
-                    createEl('span', {class: "snmk-link-btn"}, document.createTextNode(category.name))
+                    createEl('span', {class: "font-bw-1 bold p-title snmk-link-btn"}, document.createTextNode(category.name))
                 ),
-                drawerAnchor(topLevelIndex, index),
             )
         })
-        // return categories.map((category, index) => {
-        //     return `
-        //         <a class="product-img font-bw-8 mr-l mt-l" href="${category.url}">
-        //             <div class="img"><img class="w-100" src="${category.img}" alt="${category.name}"></div>
-        //             <div class="text-center mt-xs"><span class="snmk-link-btn">${name}</span></div>
-        //             ${drawerAnchor(topLevelIndex, index)}
-        //         </a>
-        //     `
-        // }).join('')
     }
 
+    window.renderProductions = renderProductions
     window.getHomePageConfig = getHomePageConfig
     window.homePageRender = homePageRender
 })(window)
@@ -2400,3 +2397,159 @@ async function handleCuraPlugin(id, locale) {
     templateData.download_link = curaPlugins.assets[0].browser_download_url
     return handleDownloadFile(templateData)
   }
+
+window.addEventListener('DOMContentLoaded', function() {
+    const renderSwiper = function() {
+        if (!window.Swiper) return;
+        const el = document.querySelector('#hp-swiper');
+
+        // 如果容器不存在，清理可能残留的实例
+        if (!el) {
+            if (window.hpSwiper && typeof window.hpSwiper.destroy === 'function') {
+                try { window.hpSwiper.destroy(true, true); } catch (e) {}
+            }
+            window.hpSwiper = null;
+            return;
+        }
+
+        const shouldEnable = window.innerWidth > 768;
+        const instance = el.swiper || window.hpSwiper;
+
+        if (shouldEnable) {
+            // 已存在实例时，仅更新而不重复初始化
+            if (instance) {
+                try { instance.update(); } catch (e) {}
+                return;
+            }
+            // 初始化实例
+            window.hpSwiper = new Swiper('#hp-swiper', {
+                // loop: true,
+                // centeredSlides: true,
+                cursor: 'grab',
+                slidesPerView: 1,
+                spaceBetween: 16,
+                // autoplay: { delay: 5000, disableOnInteraction: false },
+                // pagination: { el: '#hp-swiper .swiper-pagination', clickable: true },
+                // navigation: { nextEl: '#hp-swiper .swiper-button-next', prevEl: '#hp-swiper .swiper-button-prev' },
+                breakpoints: { 768: { slidesPerView: 2.7 } }
+            });
+        } else {
+            // 小屏关闭：销毁已存在实例
+            if (instance && typeof instance.destroy === 'function') {
+                try { instance.destroy(true, true); } catch (e) {}
+            }
+            window.hpSwiper = null;
+        }
+    };
+
+    // 首次渲染
+    renderSwiper();
+    // resize 时节流更新，避免高频重复初始化
+    window.addEventListener('resize', throttle(renderSwiper, 200));
+});
+
+(function(window) {
+    function createPostBlockHTML({link, img, title, excerpt, author, date}) {
+        return blogPostHTML = `
+            <a href="${link}" class="pa-block">
+              <div class="pa-img-wrapper"><img class="pa-img" src="${img}" alt="${title}"></div>
+              <div class="pa-text-wrapper">
+                <div class="pa-title">${title}</div>
+                <div class="pa-excerpt">${excerpt}</div>
+                <div class="pa-detail"><span class="pa-author">${author}</span> — <span class="pa-date">${date}</span></div>
+              </div>
+            </a>
+        `
+    }
+    function blogPostRender(blogPostObj) {
+        if(!blogPostObj) return
+        const blogPosts = document.querySelector('.production-academy')
+        if(!blogPosts) return
+        let renderHTML = '';
+        blogPostObj.blogPosts.forEach(post => {
+            renderHTML += createPostBlockHTML(post)
+        })
+        blogPosts.innerHTML = renderHTML
+    } 
+    window.blogPostRender = blogPostRender
+})(window)
+
+/**
+ * @description get the version and installers package of orca; data from https://api.github.com/repos/Snapmaker/OrcaSlicer/releases/latest
+ * @returns the innerHTML of Software(ocrca) block
+ */
+async function handleOrcaSoftware() {
+    let templateData = {
+        title: 'Software',
+        time: 'Nov 06, 2025',
+        // download_link: 'https://www.snapmaker.com/en-US/snapmaker-orca',
+        text: "",
+        description: [
+            {
+                "text": "For release notes, see our ",
+                "link": ""
+            },
+            {
+                "text": " Wiki Release Notes.",
+                "link": "https://wiki.snapmaker.com/en/snapmaker_orca/release_notes"
+            }
+        ],
+        dropdown: []
+    };
+
+    const res = await ajax({
+        method: 'GET',
+        url: 'https://api.github.com/repos/Snapmaker/OrcaSlicer/releases/latest'
+    });
+    templateData.time = formatDateManual(res.published_at);
+    templateData.text = res.name.replace('Release', '');
+    const installersAssets = res.assets.filter(v => v.name.indexOf('.yml') === -1);
+
+    const finder = (orignal, target) => new RegExp(target).test(orignal);
+
+    const checkOS = (osType, CheckString) => {
+        return installersAssets
+            .filter(v => finder(v.name, osType))
+            .filter(
+                v => finder(v.name.toLowerCase(), CheckString)
+            )[0];
+    };
+
+    const dropdownHandleData = [
+        {
+            os: 'Windows',
+            checkString: '.exe',
+            text: 'Snapmaker Orca_windows'
+        },
+        {
+            os: 'Mac',
+            checkString: 'arm64',
+            text: 'Snapmaker Orca_Arm64'
+        },
+        {
+            os: 'Mac',
+            checkString: 'x86_64',
+            text: 'Snapmaker Orca_x86_64'
+        },
+        {
+            os: 'Ubuntu',
+            checkString: 'ubuntu',
+            text: 'Snapmaker Orca_linux_ubuntu2404'
+        },
+        {
+            os: 'Linux',
+            checkString: 'linux_v',
+            text: 'Snapmaker Orca_linux'
+        }
+    ]
+    
+    templateData.dropdown = dropdownHandleData.map(v => {
+        const targetAssets = checkOS(v.os, v.checkString);
+        return {
+            text: v.text + ' ' + res.tag_name.toUpperCase(),
+            link: targetAssets ? targetAssets.browser_download_url : undefined
+        }
+    });
+
+    return handleSelectDownload(templateData); 
+}

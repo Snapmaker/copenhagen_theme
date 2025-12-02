@@ -9,18 +9,6 @@
  id="pW799rDic1eCOkJV"
  defer>
 </script>
-<div class="search-container mt-3xl py-3xl" id="footer-search">
-  <div class="search-title title-3 bold-700">Search Snapmaker Support</div>
-  <div class="search-wrapper mt-xl">
-    <span class="iconfont font-bw-1 search-icon">&#xe61d;</span>
-    {{#is help_center.locale 'zh-cn'}}
-      {{search placeholder="您需要什么帮助？" submit=false instant=settings.instant_search class='search search-full'}}
-    {{/is}}
-    {{#isnt help_center.locale 'zh-cn'}}
-      {{search placeholder="How can we help you?" submit=false instant=settings.instant_search class='search search-full'}}
-    {{/isnt}}
-  </div>
-</div>
 <footer class="footer" id="footer">
   <div class="snmk-container">
     <div class="snmk-col-2 snmk-col-l-2 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 font-2">
@@ -35,7 +23,7 @@
           {{dc 'footer-snapmaker2'}}
         </div>
         <div class="footer-related-links-block" data-toggle="2">
-          {{dc 'footer_addons'}}
+          {{dc 'footer_software_support'}}
         </div>
         <div class="footer-related-links-block" data-toggle="3">
           {{dc 'footer_connect'}}
@@ -43,37 +31,23 @@
         {{!-- <div class="footer-related-links-block" data-toggle="4">
           {{dc 'footer_snapmaker_original'}}
         </div> --}}
-        <div class="footer-related-links-block" data-toggle="5">
-          {{dc 'footer_software_support'}}
-        </div>
-        {{#is help_center.locale 'en-us'}}
-          <div class="footer-related-links-block" data-toggle="6">
-            {{dc 'footer_faq'}}
-          </div>
-        {{/is}}
 
         {{!-- pc --}}
         <div class='footer-related-links-left-block' >
           <div class="footer-related-links-block-new" data-toggle="1">
             {{dc 'footer-snapmaker2'}}
           </div>
-          <div class="footer-related-links-block-new" data-toggle="2">
-            {{dc 'footer_addons'}}
-          </div>
-          <div class="footer-related-links-block-new" data-toggle="3">
-            {{dc 'footer_connect'}}
+          <div class="footer-related-links-block-new"  data-toggle="2">
+            {{dc 'footer_software_support'}}
           </div>
           {{!-- <div class="footer-related-links-block" data-toggle="4">
             {{dc 'footer_snapmaker_original'}}
           </div> --}}
-          <div class="footer-related-links-block-new" data-toggle="5">
-            {{dc 'footer_software_support'}}
-          </div>
         </div>
         <div class='footer-related-links-right-block'>
         {{#is help_center.locale 'en-us'}}
-          <div class="footer-related-links-block-right-new" data-toggle="6">
-            {{dc 'footer_faq'}}
+          <div class="footer-related-links-block-new" style="width: 100%" data-toggle="3">
+            {{dc 'footer_connect'}}
           </div>
         {{/is}}
         </div>
@@ -111,23 +85,6 @@
         </div>
       </div>
     </div>
-    <div class="mt-l contact-way font-bw-4">
-      <div class="vertical-center mr-m iconfont"> &#xe77e;</div>
-      <div style="flex: 1 1;">
-        <div class="font-2" style="line-height: 24px" v-for="way of contactWay.ways" :key="way">
-          {{dc 'footer_contact_us_emails'}}
-        </div>
-      </div>
-    </div>
-      
-    <div class="mt-l contact-way font-bw-4">
-      <div class="vertical-center mr-m iconfont">&#xe61b;</div>
-      <div style="flex: 1 1;">
-        <div class="font-2" style="line-height: 24px" v-for="way of contactWay.ways" :key="way">
-          {{dc 'footer_contact_us_phone'}}
-        </div>
-      </div>
-    </div>
     <div class="footer-social-icon my-xl" style="display: flex">
         <a class="iconfont mr-m" href="https://www.facebook.com/snapmaker/" target="_blank">
         	&#xe88d;
@@ -152,7 +109,7 @@
     </div>
     <div class="snmk-col-10 snmk-col-l-10 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 font-2 footer-bottom pt-l pb-xl">
       <span class="font-bw-4">
-        ©2024 Snapmaker All Rights Reserved
+        {{settings.footer_right}}
       </span>
       <div>
         {{#if alternative_locales}}
@@ -171,21 +128,6 @@
             {{/each}}
         	{{/isnt}}
         {{/if}}
-        {{! #if alternative_locales}}
-<!--           <div class="dropdown language-selector">
-              <button class="dropdown-toggle" aria-haspopup="true">
-                  {{current_locale.name}}
-                  <i class="icon-down"></i>
-              </button>
-              <span class="dropdown-menu dropdown-menu-end" role="menu">
-                  {{#each alternative_locales}}
-                      <a href="{{url}}" dir="{{direction}}" rel="nofollow" role="menuitem">
-                          {{name}}
-                      </a>
-                  {{/each}}
-              </span>
-          </div> -->
-        {{! /if}}
       </div>
     </div>
   </div>
