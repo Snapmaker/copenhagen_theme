@@ -1444,9 +1444,9 @@ async function handleSectionResource(id, locale) {
     if(id == '36087874981527') {
         U1Firmware = handleDownloadFile({
             title: 'Firmware',
-            time: 'Nov 06, 2025',
-            download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.0.121_20251106132913_upgrade.bin',
-            text: "Download Firmware V0.9.0",
+            time: 'Dec 15, 2025',
+            download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.4.22_20251215023106_upgrade.bin',
+            text: "Download Firmware V0.9.4",
             description: [
                 {
                     "text": "For release notes and historical downloads, see our ",
