@@ -10,6 +10,21 @@
   defer=""
 ></script>
 
+<style>
+/* 强制右下角定位并放大图标 */
+#chatbot-iframe,
+iframe[src*="kuaizao.org"],
+div[style*="z-index: 2147483647"] {
+  right: 30px !important;
+  left: auto !important;
+  bottom: 150px !important;
+
+  /* 放大按钮 */
+  transform: scale(1.3) !important;
+  transform-origin: bottom right !important;
+}
+</style>
+
 <footer class="footer" id="footer">
   <div class="snmk-container">
     <div class="snmk-col-2 snmk-col-l-2 snmk-col-m-8 snmk-col-s-4 snmk-col-xs-4 snmk-col-offset-1 snmk-col-l-offset-1 font-2">
