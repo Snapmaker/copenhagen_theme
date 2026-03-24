@@ -1442,11 +1442,28 @@ async function handleSectionResource(id, locale) {
     let U1Software = null;
     let U1App = null
     if(id == '36087874981527') {
+        // Fetch U1 firmware data from remote config
+        let u1FirmwareConfig = null;
+        try {
+            u1FirmwareConfig = await ajax({
+                method: 'GET',
+                url: 'https://snapmaker-resource.oss-cn-beijing.aliyuncs.com/config/support/u1-firmware-en%281%29.json'
+            });
+        } catch (e) {
+            console.warn('Failed to fetch remote U1 firmware config:', e);
+        }
+
+        const fwVersion = u1FirmwareConfig ? u1FirmwareConfig.version : 'V0.9.4';
+        const fwLink = u1FirmwareConfig ? u1FirmwareConfig.download_link : 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.4.22_20251215023106_upgrade.bin';
+        const fwTime = u1FirmwareConfig && u1FirmwareConfig.updated_date
+            ? formatDate(u1FirmwareConfig.updated_date)
+            : 'Dec 15, 2025';
+
         U1Firmware = handleDownloadFile({
             title: 'Firmware',
-            time: 'Dec 15, 2025',
-            download_link: 'https://public.resource.snapmaker.com/firmware/U1/U1_0.9.4.22_20251215023106_upgrade.bin',
-            text: "Download Firmware V0.9.4",
+            time: fwTime,
+            download_link: fwLink,
+            text: "Download Firmware " + fwVersion,
             description: [
                 {
                     "text": "For release notes and historical downloads, see our ",
