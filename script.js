@@ -1597,7 +1597,7 @@ function handleResourceDownload(resource) {
 function handleDownloadFile(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
+    el.classList.add("file-resource-container", "mr-l")
     el.innerHTML = `
     <div class="resource-title-container">
       <div class="scroll-text-title resource-title">
@@ -1623,7 +1623,7 @@ function handleSelectDownload(resource) {
         dropdown += `<li><a class="py-s" href="${v.link}" title="${v.text}" target="_blank">${v.text}</a></li>`;
     });
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
+    el.classList.add("file-resource-container", "mr-l")
     el.innerHTML = `
       <div class="resource-title-container">
         <div class="scroll-text-title resource-title">
@@ -1647,7 +1647,7 @@ function handleSelectDownload(resource) {
 function handleMultiBtn(resource) {
     const description = handleSectionResourceDescription(resource.description, resource.title);
     const el = document.createElement('div')
-    el.classList.add("file-resource-container", "mr-l", "mt-2xl")
+    el.classList.add("file-resource-container", "mr-l")
     let btnHtml = ``
     resource.btn.forEach(v => {
         btnHtml += `<a href="${v.link}" download class="file-download-btn w-100 mt-m bold" title="${v.text}" target="_blank">

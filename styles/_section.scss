@@ -81,6 +81,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  row-gap: 68px;
 }
 .file-resource-container {
   width: 33%;
@@ -469,6 +470,7 @@ $bg-color: white;
   }
   .download-select {
     margin-left: 0;
+    row-gap: 36px;
   }
   .file-resource-container {
     margin-right: 0;

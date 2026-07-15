@@ -8366,6 +8366,7 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  row-gap: 68px;
 }
 
 .file-resource-container {
@@ -8756,6 +8757,7 @@ ul {
     padding: 0;
   }
   .download-select {
+    row-gap: 36px;
     margin-left: 0;
   }
   .file-resource-container {
