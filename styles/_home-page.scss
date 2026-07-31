@@ -989,6 +989,7 @@ main {
   justify-content: flex-start;
   gap: 48px;
   margin-bottom: 24px;
+  overflow: hidden;
 
   @include mobile {
     gap: 0;
@@ -1211,7 +1212,7 @@ main {
 .product-card-overlay {
   position: absolute;
   inset: 0;
-  background: #FFFFFF;
+  background: #FAFAFA;
   display: flex;
   flex-direction: column;
   align-items: center;

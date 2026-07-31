@@ -13584,6 +13584,7 @@ main {
   justify-content: flex-start;
   gap: 48px;
   margin-bottom: 24px;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -13822,7 +13823,7 @@ main {
 .product-card-overlay {
   position: absolute;
   inset: 0;
-  background: #FFFFFF;
+  background: #FAFAFA;
   display: flex;
   flex-direction: column;
   align-items: center;
