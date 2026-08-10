@@ -1,0 +1,193 @@
+{
+  "productTabs": [
+    {
+      "id": "printers",
+      "label": "Printers",
+      "products": [
+        { "name": "U1", "url": "https://wiki.snapmaker.com/en/snapmaker_u1", "image": "snapmaker-u1.png" },
+        { "name": "Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan", "image": "snapmaker-artisan.png" },
+        { "name": "2.0", "url": "https://wiki.snapmaker.com/en/Snapmaker_2", "image": "snapmaker-2.0.png" },
+        { "name": "J1/J1s", "url": "https://wiki.snapmaker.com/en/snapmaker_j1", "image": "J1s.png" },
+        { "name": "Original", "url": "https://wiki.snapmaker.com/en/snapmaker_original", "image": "snapmaker-original.png" }
+      ]
+    },
+    {
+      "id": "laser",
+      "label": "Laser",
+      "products": [
+        { "name": "Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray", "image": "ray.png" }
+      ]
+    },
+    {
+      "id": "accessories",
+      "label": "Accessories & Modules",
+      "banner": {
+        "image": "u1-accessories-web.png",
+        "mobileImage": "u1-accessories-mobile.png",
+        "title": "U1 Accessories",
+        "btnText": "View All",
+        "url": "https://support.snapmaker.com/hc/en-us/categories/36148372104599"
+      },
+      "products": [
+        { "name": "SnapDryer", "url": "https://wiki.snapmaker.com/en/general/manual/qsg_for_snapdryer", "image": "SnapDryer.png" },
+        { "name": "Linear Module (TMC)", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker+2.0_New_linear_Module_EN_V1.1.0.pdf", "image": "Linear-Module-TMC.png" },
+        { "name": "2.0 Quick Swap Kit", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/2.0+Quick+Swap+Kit++Quick+Start+Guide.pdf", "image": "2.0-Quick-Swap-Kit.png" },
+        { "name": "Emergency Stop Button", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker+2.0_Emergency_Stop_Button_EN_V1.0.1.pdf", "image": "Emergency-Stop-Button.png" },
+        { "name": "CAN Hub", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker+2_CAN+Hub_EN_V1.0.0.pdf", "image": "CAN-Hub.png" },
+        {
+          "name": "2W Infrared Laser Module",
+          "image": "2W-Infrared-Laser-Module.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://wiki.snapmaker.com/en/snapmaker_2/manual/qsg_for_3-axis_2w_laser" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/qsg_for_3-axis_2w_laser" },
+            { "label": "Using with Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/qsg_for_2w_laser" }
+          ]
+        },
+        {
+          "name": "200W CNC Module Bundle",
+          "image": "200W-CNC-Module-Bundle.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://wiki.snapmaker.com/en/snapmaker_2/manual/qsg_for_2_0_200w_cnc_module_bundle" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/snapmaker_artisan/manual_qsg_for_3-axis_200w_CNC" }
+          ]
+        },
+        {
+          "name": "20W & 40W Laser Module",
+          "image": "20W-40W-Laser-Module.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://wiki.snapmaker.com/en/snapmaker_2/manual/qsg_for_3-axis_20w_40w_laser" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/qsg_for_3-axis_20w_40w_laser" },
+            { "label": "Using with Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/using-modules-addons" }
+          ]
+        },
+        {
+          "name": "10W Laser Module",
+          "image": "10W-laser-Module.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/10W_Laser_Module_EN_V1.0.0.pdf" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/using-modules-addons" },
+            { "label": "Using with Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/using-modules-addons" }
+          ]
+        },
+        {
+          "name": "Enclosure",
+          "image": "Enclosure.png",
+          "sub_items": [
+            { "label": "For 2.0", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker+2.0_Enclosure_EN_V1.1.0.pdf" },
+            { "label": "For Artisan", "url": "https://s3.ap-northeast-1.amazonaws.com/wiki.snapmaker.com/download/Enclosure+Assembly.pdf" },
+            { "label": "For Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/assemble_enclosure" }
+          ]
+        },
+        {
+          "name": "Air Purifier",
+          "image": "Air-Purifier.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker2_Air_Purifier_EN_V1.1.0.pdf" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/using-modules-addons" },
+            { "label": "Using with Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/using-modules-addons" }
+          ]
+        },
+        {
+          "name": "Rotary Module",
+          "image": "Rotary-Module.png",
+          "sub_items": [
+            { "label": "Using with 2.0", "url": "https://s3.us-west-2.amazonaws.com/snapmaker.com/download/manual/Snapmaker_2.0_Rotary_Module_EN_V1.1.0.pdf" },
+            { "label": "Using with Artisan", "url": "https://wiki.snapmaker.com/en/snapmaker_artisan/manual/using-modules-addons" },
+            { "label": "Using with Ray", "url": "https://wiki.snapmaker.com/en/snapmaker_ray/manual/quick_start_guide_for_rotary_module" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "software",
+      "label": "Software",
+      "products": [
+        { "name": "Snapmaker Orca", "url": "https://wiki.snapmaker.com/en/snapmaker_orca", "image": "Snapmaker-Orca.png" },
+        { "name": "Snapmaker Luban", "url": "https://wiki.snapmaker.com/en/Snapmaker_luban", "image": "Snapmaker-Luban.png" },
+        { "name": "Snapmaker APP", "url": "https://wiki.snapmaker.com/en/snapmaker_app", "image": "Snapmaker-App.png" }
+      ]
+    },
+    {
+      "id": "error-code",
+      "label": "Error Code",
+      "products": [
+        { "name": "U1 Error Codes", "url": "https://wiki.snapmaker.com/en/snapmaker_u1/troubleshooting/u1_error_codes", "image": "U1-Error-Codes.png" }
+      ]
+    }
+  ],
+  "warrantyServices": [
+    {
+      "name": "Check Warranty Status",
+      "description": "Currently for Snapmaker U1 only.",
+      "icon": "check-warranty-status.svg",
+      "url": "https://www.snapmaker.com/support/care/query",
+      "cta": "Check Now"
+    },
+    {
+      "name": "Extend Your Warranty",
+      "description": "Currently for Snapmaker U1 only. Other models require no further action.",
+      "icon": "extend-your-warranty.svg",
+      "url": "https://www.snapmaker.com/support/care/activate",
+      "cta": "Extend Now"
+    },
+    {
+      "name": "Transfer Warranty",
+      "description": "Currently for Snapmaker U1 only. Other models require no further action.",
+      "icon": "transfer-warranty.svg",
+      "url": "https://snapmaker.formcrafts.com/u1-serial-number-update",
+      "cta": "Transfer Now"
+    }
+  ],
+  "policies": [
+    {
+      "name": "Refund Policy",
+      "description": "Learn about our refund process and conditions.",
+      "icon": "v3-refund-policy.svg",
+      "url": "https://wiki.snapmaker.com/en/Service_Policy/Refund_Policy"
+    },
+    {
+      "name": "Warranty Policy",
+      "description": "Understand the coverage and terms of our warranty.",
+      "icon": "v3-warranty-policy.svg",
+      "url": "https://wiki.snapmaker.com/en/Service_Policy/Warranty_Policy"
+    },
+    {
+      "name": "U1 Regional Availability",
+      "description": "Understand Snapmaker U1 region-based activation system.",
+      "icon": "u1-regional-availability.svg",
+      "url": "https://wiki.snapmaker.com/en/Service_Policy/U1_Regional_Availability"
+    },
+    {
+      "name": "Snapmaker Service Policy",
+      "description": "Get quick access to key policies and support.",
+      "icon": "snapmaker-service-policy.svg",
+      "url": "https://wiki.snapmaker.com/en/Service_Policy"
+    }
+  ],
+  "contactSupport": [
+    {
+      "name": "General Inquiry",
+      "description": "Get help with pre-sales, order inquiries, or general feedback.",
+      "icon": "general-inquiry.svg",
+      "url": "https://snapmaker.formcrafts.com/general-inquiry"
+    },
+    {
+      "name": "U1 Technical Support",
+      "description": "Find hardware, software, and firmware solutions for Snapmaker U1.",
+      "icon": "u1-technical-support.svg",
+      "url": "https://snapmaker.formcrafts.com/u1-troubleshooting-request"
+    },
+    {
+      "name": "Other Models Technical Support",
+      "description": "For Artisan, 2.0, J1s, Ray, or Original.",
+      "icon": "other-models-technical-support.svg",
+      "url": "https://snapmaker.formcrafts.com/support-ticket"
+    },
+    {
+      "name": "Snapmaker Model Platform",
+      "description": "Get help with 3D models, licensing, file formats, and print settings.",
+      "icon": "snapmaker-model-platform.svg",
+      "url": "https://snapmaker.formcrafts.com/model-platform"
+    }
+  ]
+}

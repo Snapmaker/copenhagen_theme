@@ -2328,46 +2328,331 @@ function formatDateManual(isoString) {
 
 //============================================== zendesk plan shift (2023.3.8) ==============================================
 
-(function(window) {    
-    async function getHomePageConfig() {
-        return homePageConfigv2 //homePageConfig
-    }
-    async function homePageRender() {
-        const res = await getHomePageConfig()
-        renderProductions(res.productions)
-    }
-    
-    function renderProductions(config) {
-        const container = getEl('#productions')
-        return config.map((productionClass, index) => {
-            const categoriesEl = categoriesElMap(productionClass, index)
-            const fragment = document.createDocumentFragment()
-            // const title = createEl('div', {class: "title-3 font-bw-1 bold mr-xs mb-xl mt-2xl", id: `title-${index}`}, document.createTextNode(productionClass.name))
-            const content = createEl('div', {class: 'category-sections pos-relative', id: `section-${index}`}, ...categoriesEl)
-            // fragment.appendChild(title)
-            fragment.appendChild(content)
-            container.appendChild(fragment)
-            return fragment
-        })
-    }
-    function categoriesElMap(productionClass) {
-        const categories = productionClass.categories
-        if(!categories) return ''
-        return categories.map((category, index) => {
-            return createEl('a', {class: "product-img font-bw-8 mr-l mt-l", href: category.url},
-                createEl('div', {class: "img", href: category.url}, 
-                    createEl('img', {class: 'w-100', src: category.img, alt: category.name})
-                ),
-                createEl('div', {class: "text-center mt-xs px-l"}, 
-                    createEl('span', {class: "font-bw-1 bold p-title snmk-link-btn"}, document.createTextNode(category.name))
-                ),
-            )
-        })
+//============================================== new home page rendering (2026Q2 redesign) ==============================================
+(function(window) {
+    function resolveAssetUrl(filename) {
+        if (!filename) return '';
+        if (/^https?:\/\//.test(filename)) return filename;
+        if (typeof homeAssetMap !== 'undefined' && homeAssetMap && homeAssetMap[filename]) {
+            return homeAssetMap[filename];
+        }
+        return '/hc/assets/' + filename;
     }
 
-    window.renderProductions = renderProductions
-    window.getHomePageConfig = getHomePageConfig
-    window.homePageRender = homePageRender
+    function loadHomeConfig() {
+        // Try new v3 config first (injected via {{dc 'home_config_v3'}})
+        if (typeof homePageConfigv3 !== 'undefined' && homePageConfigv3) {
+            return Promise.resolve(homePageConfigv3);
+        }
+        // Fallback: adapt legacy v2 config
+        if (typeof homePageConfigv2 !== 'undefined' && homePageConfigv2 && homePageConfigv2.productions) {
+            return Promise.resolve(adaptLegacyConfig(homePageConfigv2));
+        }
+        return Promise.resolve(null);
+    }
+
+    function adaptLegacyConfig(config) {
+        return {
+            hero: { title: 'Snapmaker Support', subtitle: 'Guides, troubleshooting, and support for your Snapmaker machines.' },
+            productTabs: config.productions.map(function(pc) {
+                return {
+                    id: pc.name ? pc.name.toLowerCase().replace(/\s+/g, '-') : 'tab-' + Math.random().toString(36).slice(2),
+                    label: pc.name || 'Products',
+                    cardStyle: 'A',
+                    products: (pc.categories || []).map(function(cat) {
+                        return { name: cat.name, image: cat.img, url: cat.url };
+                    })
+                };
+            }),
+            warrantyServices: [],
+            policies: [],
+            contactSupport: []
+        };
+    }
+
+    function renderProductCard(product) {
+        var hasSubItems = product.sub_items && product.sub_items.length;
+        var imgUrl = resolveAssetUrl(product.image);
+
+        if (hasSubItems) {
+            // Card with hover overlay: not directly clickable, shows variant buttons on hover
+            var card = createEl('div', {
+                class: 'product-card product-card--simple product-card--has-sub'
+            });
+
+            var imgContainer = createEl('div', { class: 'product-card-img' });
+            if (imgUrl) {
+                imgContainer.appendChild(createEl('img', { src: imgUrl, alt: product.name, loading: 'lazy' }));
+            } else {
+                imgContainer.classList.add('product-card-img--placeholder');
+                imgContainer.appendChild(createEl('span', { class: 'product-card-placeholder' }, document.createTextNode(product.name)));
+            }
+
+            var overlay = createEl('div', { class: 'product-card-overlay' });
+            product.sub_items.forEach(function(v) {
+                var btn = createEl('a', {
+                    class: 'product-card-variant-btn',
+                    href: v.url || '#',
+                    target: '_blank'
+                },
+                    document.createTextNode(v.label),
+                    createEl('span', { class: 'variant-arrow' }, document.createTextNode(' ›'))
+                );
+                overlay.appendChild(btn);
+            });
+            imgContainer.appendChild(overlay);
+
+            // Mobile: toggle overlay on tap
+            imgContainer.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) return;
+                if (!e.target.closest('.product-card-variant-btn')) {
+                    var ov = imgContainer.querySelector('.product-card-overlay');
+                    if (ov) ov.classList.toggle('active');
+                }
+            });
+
+            card.appendChild(imgContainer);
+            card.appendChild(createEl('div', { class: 'product-card-name' },
+                document.createTextNode(product.name)
+            ));
+            return card;
+        }
+
+        // Simple card: click to navigate
+        var cardEl = createEl('a', {
+            class: 'product-card product-card--simple',
+            href: product.url || '#',
+            target: '_blank'
+        });
+
+        if (imgUrl) {
+            cardEl.appendChild(createEl('div', { class: 'product-card-img' },
+                createEl('img', { src: imgUrl, alt: product.name, loading: 'lazy' })
+            ));
+        } else {
+            cardEl.appendChild(createEl('div', { class: 'product-card-img product-card-img--placeholder' },
+                createEl('span', { class: 'product-card-placeholder' }, document.createTextNode(product.name))
+            ));
+        }
+
+        cardEl.appendChild(createEl('div', { class: 'product-card-name' },
+            document.createTextNode(product.name)
+        ));
+        return cardEl;
+    }
+
+    function renderBannerCard(banner) {
+        var imgSrc = resolveAssetUrl(banner.image);
+        var mobileImgSrc = banner.mobileImage ? resolveAssetUrl(banner.mobileImage) : imgSrc;
+
+        var card = createEl('a', {
+            class: 'product-banner-card',
+            href: banner.url || '#',
+            target: '_blank'
+        });
+
+        // Left: image
+        if (imgSrc) {
+            var imgWrap = createEl('div', { class: 'product-banner-img' });
+            var picture = createEl('picture', {});
+            picture.appendChild(createEl('source', { media: '(max-width: 768px)', srcset: mobileImgSrc }));
+            picture.appendChild(createEl('img', { src: imgSrc, alt: banner.title || '', loading: 'lazy' }));
+            imgWrap.appendChild(picture);
+            card.appendChild(imgWrap);
+        } else {
+            card.appendChild(createEl('div', { class: 'product-banner-img' }));
+        }
+
+        // Right: text + button
+        var textWrap = createEl('div', { class: 'product-banner-text' },
+            createEl('div', { class: 'product-banner-title' }, document.createTextNode(banner.title || '')),
+            createEl('span', { class: 'product-banner-btn' },
+                document.createTextNode(banner.btnText || 'View All'),
+                createEl('span', { class: 'banner-btn-arrow' }, document.createTextNode(' >'))
+            )
+        );
+        card.appendChild(textWrap);
+
+        return card;
+    }
+
+    function renderCardGrid(products) {
+        var grid = createEl('div', { class: 'product-card-grid' });
+        if (!products || !products.length) return grid;
+        products.forEach(function(p) {
+            grid.appendChild(renderProductCard(p));
+        });
+        return grid;
+    }
+
+    function enableTabScroll(tabNav) {
+        if (window.innerWidth > 768) return;
+        tabNav.style.overflowX = 'auto';
+        tabNav.style.webkitOverflowScrolling = 'touch';
+    }
+
+    function renderProductTabs(tabConfigs) {
+        var container = getEl('#product-tabs');
+        if (!container || !tabConfigs || !tabConfigs.length) return;
+        container.innerHTML = '';
+
+        var tabNav = createEl('nav', { class: 'product-tab-nav', role: 'tablist' });
+        var tabPanels = createEl('div', { class: 'product-tab-panels' });
+
+        tabConfigs.forEach(function(tab, index) {
+            var isActive = index === 0;
+
+            // Tab button
+            var tabBtn = createEl('button', {
+                class: 'product-tab-btn' + (isActive ? ' active' : ''),
+                role: 'tab',
+                'aria-selected': isActive ? 'true' : 'false',
+                'data-tab': tab.id,
+                type: 'button'
+            }, document.createTextNode(tab.label));
+            tabNav.appendChild(tabBtn);
+
+            // Tab panel
+            var panel = createEl('div', {
+                class: 'product-tab-panel' + (isActive ? ' active' : ''),
+                role: 'tabpanel',
+                id: 'tab-panel-' + tab.id
+            });
+
+            // Render banner if configured
+            if (tab.banner) {
+                panel.appendChild(renderBannerCard(tab.banner));
+            }
+
+            // Render product card grid
+            panel.appendChild(renderCardGrid(tab.products));
+
+            tabPanels.appendChild(panel);
+        });
+
+        container.appendChild(tabNav);
+        container.appendChild(tabPanels);
+
+        // Tab switching
+        tabNav.addEventListener('click', function(e) {
+            var btn = e.target.closest('.product-tab-btn');
+            if (!btn) return;
+            var tabId = btn.getAttribute('data-tab');
+
+            tabNav.querySelectorAll('.product-tab-btn').forEach(function(b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            tabPanels.querySelectorAll('.product-tab-panel').forEach(function(p) {
+                p.classList.remove('active');
+            });
+
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            var targetPanel = document.getElementById('tab-panel-' + tabId);
+            if (targetPanel) targetPanel.classList.add('active');
+        });
+
+        enableTabScroll(tabNav);
+    }
+
+    function renderWarrantyServices(services) {
+        var container = getEl('#warranty-services');
+        if (!container || !services || !services.length) return;
+        container.innerHTML = '';
+
+        var wrapper = createEl('div', { class: 'warranty-services-grid' });
+        services.forEach(function(svc) {
+            var card = createEl('a', {
+                class: 'warranty-card',
+                href: svc.url || '#',
+                target: '_blank'
+            },
+                createEl('div', { class: 'warranty-card-icon' },
+                    createEl('img', { src: resolveAssetUrl(svc.icon), alt: svc.name })
+                ),
+                createEl('div', { class: 'warranty-card-content' },
+                    createEl('h3', { class: 'warranty-card-title' }, document.createTextNode(svc.name)),
+                    createEl('p', { class: 'warranty-card-desc' }, document.createTextNode(svc.description || ''))
+                ),
+                createEl('div', { class: 'warranty-card-cta' },
+                    document.createTextNode(svc.cta || 'Learn More'),
+                    createEl('span', { class: 'cta-arrow' }, document.createTextNode(' ›'))
+                )
+            );
+            wrapper.appendChild(card);
+        });
+        container.appendChild(wrapper);
+    }
+
+    function renderPolicies(policies) {
+        var container = getEl('#policy-cards');
+        if (!container || !policies || !policies.length) return;
+        container.innerHTML = '';
+
+        var wrapper = createEl('div', { class: 'policy-cards-grid' });
+        policies.forEach(function(p) {
+            var card = createEl('a', {
+                class: 'policy-card',
+                href: p.url || '#',
+                target: '_blank'
+            },
+                createEl('div', { class: 'policy-card-icon' },
+                    createEl('img', { src: resolveAssetUrl(p.icon), alt: p.name })
+                ),
+                createEl('div', { class: 'policy-card-content' },
+                    createEl('h3', { class: 'policy-card-title' }, document.createTextNode(p.name)),
+                    createEl('p', { class: 'policy-card-desc' }, document.createTextNode(p.description || ''))
+                ),
+                createEl('span', { class: 'policy-card-chevron' }, document.createTextNode('›'))
+            );
+            wrapper.appendChild(card);
+        });
+        container.appendChild(wrapper);
+    }
+
+    function renderContactSupport(contacts) {
+        var container = getEl('#contact-support-cards');
+        if (!container || !contacts || !contacts.length) return;
+        container.innerHTML = '';
+
+        var wrapper = createEl('div', { class: 'contact-cards-grid' });
+        contacts.forEach(function(c) {
+            var card = createEl('a', {
+                class: 'contact-card',
+                href: c.url || '#',
+                target: '_blank'
+            },
+                createEl('div', { class: 'contact-card-icon' },
+                    createEl('img', { src: resolveAssetUrl(c.icon), alt: c.name })
+                ),
+                createEl('h3', { class: 'contact-card-title' }, document.createTextNode(c.name)),
+                createEl('p', { class: 'contact-card-desc' }, document.createTextNode(c.description || ''))
+            );
+            wrapper.appendChild(card);
+        });
+        container.appendChild(wrapper);
+    }
+
+    async function homePageRender() {
+        var config = await loadHomeConfig();
+        if (!config) return;
+
+        if (config.productTabs && config.productTabs.length) {
+            renderProductTabs(config.productTabs);
+        }
+        if (config.warrantyServices && config.warrantyServices.length) {
+            renderWarrantyServices(config.warrantyServices);
+        }
+        if (config.policies && config.policies.length) {
+            renderPolicies(config.policies);
+        }
+        if (config.contactSupport && config.contactSupport.length) {
+            renderContactSupport(config.contactSupport);
+        }
+    }
+
+    window.homePageRender = homePageRender;
 })(window)
 
 
@@ -2415,55 +2700,6 @@ async function handleCuraPlugin(id, locale) {
     return handleDownloadFile(templateData)
   }
 
-window.addEventListener('DOMContentLoaded', function() {
-    const renderSwiper = function() {
-        if (!window.Swiper) return;
-        const el = document.querySelector('#hp-swiper');
-
-        // 如果容器不存在，清理可能残留的实例
-        if (!el) {
-            if (window.hpSwiper && typeof window.hpSwiper.destroy === 'function') {
-                try { window.hpSwiper.destroy(true, true); } catch (e) {}
-            }
-            window.hpSwiper = null;
-            return;
-        }
-
-        const shouldEnable = window.innerWidth > 768;
-        const instance = el.swiper || window.hpSwiper;
-
-        if (shouldEnable) {
-            // 已存在实例时，仅更新而不重复初始化
-            if (instance) {
-                try { instance.update(); } catch (e) {}
-                return;
-            }
-            // 初始化实例
-            window.hpSwiper = new Swiper('#hp-swiper', {
-                // loop: true,
-                // centeredSlides: true,
-                cursor: 'grab',
-                slidesPerView: 1,
-                spaceBetween: 16,
-                // autoplay: { delay: 5000, disableOnInteraction: false },
-                // pagination: { el: '#hp-swiper .swiper-pagination', clickable: true },
-                // navigation: { nextEl: '#hp-swiper .swiper-button-next', prevEl: '#hp-swiper .swiper-button-prev' },
-                breakpoints: { 768: { slidesPerView: 2.7 } }
-            });
-        } else {
-            // 小屏关闭：销毁已存在实例
-            if (instance && typeof instance.destroy === 'function') {
-                try { instance.destroy(true, true); } catch (e) {}
-            }
-            window.hpSwiper = null;
-        }
-    };
-
-    // 首次渲染
-    renderSwiper();
-    // resize 时节流更新，避免高频重复初始化
-    window.addEventListener('resize', throttle(renderSwiper, 200));
-});
 
 (function(window) {
     function createPostBlockHTML({link, img, title, excerpt, author, date}) {
