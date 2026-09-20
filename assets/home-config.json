@@ -184,8 +184,8 @@
       "url": "https://snapmaker.formcrafts.com/support-ticket"
     },
     {
-      "name": "Snapmaker Model Platform",
-      "description": "Get help with 3D models, licensing, file formats, and print settings.",
+      "name": "Snapmaker Space",
+      "description": "Get help with 3D models and print profiles, or share your feedback.",
       "icon": "snapmaker-model-platform.svg",
       "url": "https://snapmaker.formcrafts.com/model-platform"
     }
