@@ -117,6 +117,13 @@
   ],
   "warrantyServices": [
     {
+      "name": "Buy Spare Parts",
+      "description": "Quickly find and purchase official spare parts",
+      "icon": "buy-spare-parts.svg",
+      "url": "https://www.snapmaker.com/buy-spare-parts",
+      "cta": "Buy now"
+    },
+    {
       "name": "Check Warranty Status",
       "description": "Currently for Snapmaker U1 only.",
       "icon": "check-warranty-status.svg",
