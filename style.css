@@ -13124,12 +13124,12 @@ main {
 .home-banner-inner {
   max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 24px;
+  padding-inline: 32px;
 }
 
 @media (max-width: 768px) {
   .home-banner-inner {
-    padding-inline: 16px;
+    padding-inline: 24px;
   }
 }
 
@@ -13875,24 +13875,24 @@ main {
 .product-tabs-container {
   max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 24px;
+  padding-inline: 32px;
 }
 
 @media (max-width: 768px) {
   .product-tabs-container {
-    padding: 0 16px;
+    padding: 0 24px;
   }
 }
 
 .warranty-services-container {
   max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 24px;
+  padding-inline: 32px;
 }
 
 @media (max-width: 768px) {
   .warranty-services-container {
-    padding: 0 16px;
+    padding: 0 24px;
   }
 }
 
@@ -13995,12 +13995,12 @@ main {
 .policy-cards-container {
   max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 24px;
+  padding-inline: 32px;
 }
 
 @media (max-width: 768px) {
   .policy-cards-container {
-    padding: 0 16px;
+    padding: 0 24px;
   }
 }
 
@@ -14099,12 +14099,12 @@ main {
 .contact-support-cards-container {
   max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 24px;
+  padding-inline: 32px;
 }
 
 @media (max-width: 768px) {
   .contact-support-cards-container {
-    padding: 0 16px;
+    padding: 0 24px;
   }
 }
 
