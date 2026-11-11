@@ -618,9 +618,9 @@ main {
 }
 
 .home-banner-inner {
-  max-width: 1328px;
+  max-width: 1376px;
   margin-inline: auto;
-  padding-inline: 0;
+  padding-inline: 24px;
 
   @include mobile {
     padding-inline: 16px;
@@ -1263,8 +1263,9 @@ main {
 
 // Tabs container
 .product-tabs-container {
-  max-width: 1328px;
+  max-width: 1376px;
   margin-inline: auto;
+  padding-inline: 24px;
 
   @include mobile {
     padding: 0 16px;
@@ -1273,8 +1274,9 @@ main {
 
 //==================== Section 3: Warranty Services
 .warranty-services-container {
-  max-width: 1328px;
+  max-width: 1376px;
   margin-inline: auto;
+  padding-inline: 24px;
 
   @include mobile {
     padding: 0 16px;
@@ -1374,8 +1376,9 @@ main {
 
 //==================== Section 4: Policy Cards
 .policy-cards-container {
-  max-width: 1328px;
+  max-width: 1376px;
   margin-inline: auto;
+  padding-inline: 24px;
 
   @include mobile {
     padding: 0 16px;
@@ -1470,8 +1473,9 @@ main {
 
 //==================== Section 5: Contact Support Cards
 .contact-support-cards-container {
-  max-width: 1328px;
+  max-width: 1376px;
   margin-inline: auto;
+  padding-inline: 24px;
 
   @include mobile {
     padding: 0 16px;
