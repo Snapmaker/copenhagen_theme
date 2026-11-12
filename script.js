@@ -2,6 +2,62 @@
 // if (isCN) {
 //     window.location = 'https://snapmaker.cn/support-cn/home';
 // }
+
+var SUPPORT_LOCALE_STORAGE_KEY = 'snapmaker_support_locale';
+var SUPPORT_LOCALE_PARAM = 'locale';
+var SUPPORTED_SITE_LOCALES = {
+    'en': 'en',
+    'en-us': 'en-US',
+    'en-ca': 'en-CA',
+    'en-gb': 'en-GB',
+    'en-eu': 'en-EU',
+    'de-de': 'de-DE',
+    'en-no': 'en-NO',
+    'en-ch': 'en-CH',
+    'en-au': 'en-AU',
+    'zh-cn': 'zh-CN'
+};
+
+function getSupportLocale() {
+    var queryLocale = '';
+    var storedLocale = '';
+
+    try {
+        queryLocale = new URLSearchParams(window.location.search).get(SUPPORT_LOCALE_PARAM) || '';
+        storedLocale = sessionStorage.getItem(SUPPORT_LOCALE_STORAGE_KEY) || '';
+    } catch (error) {
+        console.warn('[Support locale] Failed to read locale:', error);
+    }
+
+    var normalizedQueryLocale = SUPPORTED_SITE_LOCALES[queryLocale.toLowerCase()];
+    if (normalizedQueryLocale) {
+        try {
+            sessionStorage.setItem(SUPPORT_LOCALE_STORAGE_KEY, normalizedQueryLocale);
+        } catch (error) {
+            console.warn('[Support locale] Failed to store locale:', error);
+        }
+        return normalizedQueryLocale;
+    }
+
+    return SUPPORTED_SITE_LOCALES[storedLocale.toLowerCase()] || '';
+}
+
+function appendSupportLocale(url, locale) {
+    if (!url || !locale) return url || '#';
+
+    try {
+        var targetUrl = new URL(url, window.location.origin);
+        if (targetUrl.hostname === 'www.snapmaker.com' || targetUrl.hostname === 'snapmaker.com') {
+            targetUrl.searchParams.set(SUPPORT_LOCALE_PARAM, locale);
+            return targetUrl.toString();
+        }
+    } catch (error) {
+        console.warn('[Support locale] Failed to append locale:', error);
+    }
+
+    return url;
+}
+
 // https://github.com/jimmynotjim/scrollnav
 // Most from scrollnav@v3.0.2, with little modifications.
 const scrollnav = (function () {
@@ -2560,12 +2616,13 @@ function formatDateManual(isoString) {
         var container = getEl('#warranty-services');
         if (!container || !services || !services.length) return;
         container.innerHTML = '';
+        var supportLocale = getSupportLocale();
 
         var wrapper = createEl('div', { class: 'warranty-services-grid' });
         services.forEach(function(svc) {
             var card = createEl('a', {
                 class: 'warranty-card',
-                href: svc.url || '#',
+                href: appendSupportLocale(svc.url, supportLocale),
                 target: '_blank'
             },
                 createEl('div', { class: 'warranty-card-icon' },
