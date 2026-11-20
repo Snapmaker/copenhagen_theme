@@ -1,7 +1,9 @@
-// const isCN = new RegExp('https://support.snapmaker.com/hc/zh-cn(.*)$', 'ig').test(window.location.href);
-// if (isCN) {
-//     window.location = 'https://snapmaker.cn/support-cn/home';
-// }
+// 中文 Zendesk 是历史遗留入口，不提供维护；统一回到当前中文站 Support。
+// 放在主题脚本中作为兜底，生产环境仍建议在 Zendesk/Cloudflare 配置 HTTP 301。
+var isLegacyCnSupport = /^\/hc\/zh-cn(?:\/|$)/i.test(window.location.pathname);
+if (isLegacyCnSupport) {
+    window.location.replace('https://snapmaker.cn/support');
+}
 
 var SUPPORT_LOCALE_STORAGE_KEY = 'snapmaker_support_locale';
 var SUPPORT_LOCALE_PARAM = 'locale';
